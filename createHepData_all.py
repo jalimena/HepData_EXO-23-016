@@ -29,6 +29,7 @@ import yaml
 import shutil
 import subprocess
 from hepdata_lib import RootFileReader, Submission, Variable, Uncertainty, Table
+from hepdata_lib.root_utils import get_hist_1d_points
 
 # Import the helper function from readTest.py
 sys.path.append('.')
@@ -57,15 +58,14 @@ def check_imagemagick_available():
         return False
 
 def makeHcalTowerEffTable():
-    table = Table("L1T HCAL tower efficiency vs Timing shift [ns]")
-    table.description = "The L1T HCAL trigger tower efficiency of the timing-flagged towers in 2023 HCAL timing-scan data: HCAL delayed timing tower efficiency "\
-        "during an HCAL timing phase scan during 2023, with efficiencies split by trigger towers centered at $\\eta\\approx 0$ (blue circles), 0.65 (red squares), "\
-        "1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp turn-on between timing delays of 0-6 ns is expected, as the prompt timing "\
-        "range includes pulses up to and including those recorded at a 6 ns arrival time (reported in half-ns steps by the TDC), demonstrating the timing "\
-        "trigger performance. The timing-flagged towers must have at least one delayed cell, no prompt cells, and energy ${>}4$ GeV. The efficiency is calculated "\
-        "relative to towers with any valid timing code, meaning the tower contains at least one cell with energy ${>}4$ GeV and a TDC code of prompt, slightly delayed, "\
-        "or very delayed. Multiple flagged towers are required for the HCAL-based displaced- and delayed-jet L1T to be set, and this shows the turn-on at a per-tower "\
-        "level relative to incoming pulse timing."
+    table = Table("L1T HCAL delayed tower efficiency vs Timing shift [ns]")
+    table.description = "The L1T HCAL trigger tower efficiency of the delayed timing towers in 2023 HCAL timing-scan data, with efficiencies split by trigger "\
+        "towers centered at $\\eta\\approx 0$ (blue circles), 0.65 (red squares), 1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp rise in "\
+        "efficiency between timing delays of 0-6 ns is expected, as the prompt timing range includes pulses up to and including those recorded at a 6 ns "\
+        "arrival time (reported in half-ns steps by the TDC), demonstrating the timing trigger performance. The delayed timing towers must have at least one delayed "\
+        "cell, no prompt cells, and energy ${>} 4$ GeV. The efficiency is calculated relative to towers with any valid timing code, meaning the tower contains at least "\
+        "one cell with energy ${>} 4$ GeV and a TDC code of prompt, slightly delayed, or very delayed. Multiple delayed or displaced towers are required for the "\
+        "HCAL-based displaced- and delayed-jet L1T to pass, and this shows the efficiency at a per-tower level relative to incoming pulse timing."
     image = "data_Gillian/QIE_Tower_ieta_fg123_effs_diff_ieta_nopreliminary.pdf"
     reader = RootFileReader("data_Gillian/QIE_Tower_ieta_fg123_effs_diff_ieta.root")
     # Tefficiencies from the ROOT file
@@ -83,9 +83,9 @@ def makeHcalTowerEffTable():
     xAxisVar.values = plot_eta0["x"]
     table.add_variable(xAxisVar)
 
-    table.add_variable(makeVariable(plot=plot_eta0, label="Time flagged, $\eta=0$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_eta0pt65, label="Time flagged, $\eta=0.65$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_eta1pt26, label="Time flagged, $\eta=1.26$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta0, label="Delayed tower, $\eta=0$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta0pt65, label="Delayed tower, $\eta=0.65$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta1pt26, label="Delayed tower, $\eta=1.26$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
 
     return table
 
@@ -1128,6 +1128,351 @@ The rate vs PU behavior was nonlinear in 2022 and fixed in time for 2023 data ta
 
     return table
 
+#Figure 27
+def makeDelayedJetEfficiencyTable():
+    reader = RootFileReader("data_Neha/Efficiency_comparison_delayedjets_Run2HTtrigger.root")
+
+    h_incl = reader.read_hist_1d("SingleInclusive")
+    h_trk  = reader.read_hist_1d("SingleTrackless")
+    h_ht   = reader.read_hist_1d("Run2HT1050")
+
+    table = Table("L1T+HLT eff vs HT (mH = 1000, mX = 450 GeV, ctau=10m)")
+    table.location = "Figure 27"
+    table.description = ("The L1T+HLT efficiency of the inclusive and trackless delayed-jet triggers introduced in Run 3, shown as red squares and blue triangles, for 2022 conditions, and of the $H_T$ trigger (black circles), which was the most appropriate path available in Run 2, for a $H \\to X X \\to b\\bar{b}\\,b\\bar{b}$ signal with $m_H$ = 1000 GeV, $m_X$ = 450 GeV, and $c\\tau = 10$ m. The addition of these delayed-jet triggers results in a significant improvement in the efficiency of the signal for $430 < H_T < 1050 GeV$.")
+    table.add_image("data_Neha/Efficiency_comparison_delayedjets_Run2HTtrigger.pdf")
+
+    x = Variable("$H_T$", is_independent=True, is_binned=True, units="GeV")
+    x.values = h_incl["x_edges"]
+    table.add_variable(x)
+
+    def add_dep(label, hist):
+        y = Variable(label, is_independent=False, is_binned=False)
+        y.values = hist["y"]
+        if "dy" in hist:
+            u = Uncertainty("stat", is_symmetric=True)
+            u.values = hist["dy"]
+            y.add_uncertainty(u)
+        y.add_qualifier("SQRT(S)", 13.6, "TeV")
+        y.add_qualifier("Final state", "$H \\to X X \\to b\\bar{b}\\,b\\bar{b}$")
+        table.add_variable(y)
+
+    add_dep("Inclusive delayed-jet trigger (Run 3)", h_incl)
+    add_dep("Trackless delayed-jet trigger (Run 3)", h_trk)
+    add_dep("$H_T > 1050$ GeV trigger (Run 2)", h_ht)
+
+    return table
+
+#Figure 28
+def makeDelayedHTTauTable(rootfile, final_state_label, final_state_tex, location):
+    reader = RootFileReader(rootfile)
+
+    h_incl_ht  = reader.read_hist_1d("Inclusiveht")
+    h_trk_ht   = reader.read_hist_1d("Tracklessht")
+    h_trk_tau  = reader.read_hist_1d("Tracklesstau")
+    h_incl_tau = reader.read_hist_1d("Inclusivetau")
+
+    title = f"Delayed jet trigger efficiency vs HT, ({final_state_label} final state)"
+    table = Table(title)
+    table.location = "Data from Figure 28 " + location
+    table.description = ("The L1T+HLT efficiency of the $H_T$-seeded delayed jet trigger, the $H_T$-seeded delayed trackless jet trigger, the tau-seeded delayed jet trigger, and the tau-seeded delayed trackless jet trigger, as functions of $H_T$, for a $H \\to X X \\to " + final_state_tex + "$ signal. The addition of the delayed-jet triggers results in a significant improvement in the efficiency of the signal in the intermediate $H_T$ range.")
+    table.add_image(rootfile.replace(".root", ".pdf"))
+
+    x = Variable("$H_T$", is_independent=True, is_binned=True, units="GeV")
+    x.values = h_incl_ht["x_edges"]
+    table.add_variable(x)
+
+    def add_dep(label, hist):
+        y = Variable(label, is_independent=False, is_binned=False)
+        y.values = hist["y"]
+        if "dy" in hist:
+            u = Uncertainty("stat", is_symmetric=True)
+            u.values = hist["dy"]
+            y.add_uncertainty(u)
+        y.add_qualifier("SQRT(S)", 13.6, "TeV")
+        y.add_qualifier("Final state", f"$H \\to X X \\to {final_state_tex}$")
+        table.add_variable(y)
+
+    add_dep("$H_T$-seeded delayed jet trigger", h_incl_ht)
+    add_dep("$H_T$-seeded delayed trackless jet trigger", h_trk_ht)
+    add_dep("Tau-seeded delayed jet trigger", h_incl_tau)
+    add_dep("Tau-seeded delayed trackless jet trigger", h_trk_tau)
+
+    return table
+
+#Figure 29
+def makeDelayedJetTimeTable(rootfile, table_title, hlt_text, location):
+    reader = RootFileReader(rootfile)
+
+    g2023 = reader.read_graph("2023")
+    g2022 = reader.read_graph("2022")
+
+    table = Table(table_title)
+    table.location = "Data from Figure 29 " + location
+    table.description = ("Data from Figure 28: The L1T+HLT efficiency of the delayed-jet triggers as a function of jet timing for 2022 and 2023 data-taking periods. A clear rise in efficiency is evident around the threshold values. The plots include events that pass the $E_T^{\\text{miss}} > 200\\,\\mathrm{GeV}$ trigger and have at least one barrel jet with $p_T > 50\\,\\mathrm{GeV}$, number of ECAL cells $> 8$, and ECAL energy $ > 25\\,\\mathrm{GeV}$. The $H_T$ is calculated using the scalar sum of jets with offline $p_T > 40 GeV$, and this is different from the $H_T$ calculation used at the HLT level, which can cause trigger inefficiencies. The maximum jet time accepted by the trigger is $12.5\\,\\mathrm{ns}$.")
+    table.add_image(rootfile.replace(".root", ".pdf"))
+
+    x = Variable("Jet time", is_independent=True, is_binned=False, units="ns")
+    x.values = g2023["x"]
+    table.add_variable(x)
+
+    def add_curve(graph, label):
+        y = Variable(label, is_independent=False, is_binned=False)
+        y.values = graph["y"]
+        u = Uncertainty("stat", is_symmetric=False)
+        u.values = graph["dy"]
+        y.add_uncertainty(u)
+        y.add_qualifier("SQRT(S)", 13.6, "TeV")
+        table.add_variable(y)
+
+    add_curve(g2023, "L1T+HLT efficiency (2023)")
+    add_curve(g2022, "L1T+HLT efficiency (2022)")
+
+    return table
+
+#Figure 65 and 66
+def makeAcceptanceTables(mH, mX, coord):
+    tag = f"{mH}_{mX}"
+    if coord == "R":
+        fname = f"data_Neha/overlay_acceptance_{tag}_CTau-1000mm.root"
+        pdfbase = f"data_Neha/overlay_acceptance_{tag}_CTau-1000mm"
+        axis_label = "LLP decay R"
+        position_phrase = "LLP decay radial position"
+    else:
+        fname = f"data_Neha/overlay_acceptance_z_{tag}_CTau-1000mm.root"
+        pdfbase = f"data_Neha/overlay_acceptance_z_{tag}_CTau-1000mm"
+        axis_label = "LLP decay Z"
+        position_phrase = "LLP decay position along the beam line"
+
+    if tag == "1000_200":
+        location = "(upper left)"
+    elif tag == "350_160":
+        location = "(lower left)"
+    elif tag == "350_80":
+        location = "(upper right)"
+    elif tag == "125_25":
+        location = "(lower right)"
+    else:
+        location = "null"
+        
+    reader = RootFileReader(fname)
+
+    curves = [
+        ("g_trk",  "Displaced-jet triggers using the tracker ($c\\tau = 0.1\\,\\mathrm{m}$)", "Tracker displaced-jet", "0.1 m"),
+        ("g_ecal", "Delayed-jet triggers using ECAL timing ($c\\tau = 1\\,\\mathrm{m}$)",      "ECAL delayed-jet",     "1 m"),
+        ("g_hcal", "Displaced-jet triggers using the HCAL ($c\\tau = 1\\,\\mathrm{m}$)",       "HCAL displaced-jet",   "1 m"),
+        ("g_dt",   "Muon Detector Showers with the DTs ($c\\tau = 1\\,\\mathrm{m}$)",          "DT MDS",               "1 m"),
+        ("g_csc",  "Muon Detector Showers with the CSCs ($c\\tau = 1\\,\\mathrm{m}$)",         "CSC MDS",              "1 m"),
+    ]
+
+    tables = []
+
+    for graph_name, label, short, ctau in curves:
+        g = reader.read_graph(graph_name)
+
+        if coord == "R":
+            title = f"{short} acceptance vs R (mH={mH}, mX={mX})"
+        else:
+            title = f"{short} acceptance vs Z (mH={mH}, mX={mX})"
+        table = Table(title)
+        if coord == "R":
+            table.location = "Data from Fig. 65 " + location
+        else:
+            table.location = "Data from Fig. 66 " + location
+        table.description = ("The L1T+HLT acceptances for various LLP triggers using different subdetectors, as functions of the " + position_phrase + f", for $H \\to X X \\to b\\bar{{b}}\\,b\\bar{{b}}$ events for 2023 conditions with $m_H={mH}\\,\\mathrm{{GeV}}$ and $m_X={mX}\\,\\mathrm{{GeV}}$. The $c\\tau$ is 0.1\\,m for the displaced-jet triggers using the tracker and 1\\,m for the other triggers. The acceptance is shown for the displaced-jet triggers using the tracker (cyan points), for the delayed-jet triggers using ECAL timing (red circles), for the displaced-jet triggers using the HCAL (blue squares), for the MDS triggers with the DTs (green triangles), and for the MDS triggers with the CSCs (pink points). The boundaries of the tracker, ECAL, HCAL, DTs, and CSCs are also shown.")
+        table.add_image(pdfbase + ".pdf")
+
+        x = Variable(axis_label, is_independent=True, is_binned=False, units="cm")
+        x.values = g["x"]
+        table.add_variable(x)
+
+        y = Variable(label, is_independent=False, is_binned=False)
+        y.values = g["y"]
+        u = Uncertainty("stat", is_symmetric=False)
+        u.values = g["dy"]
+        y.add_uncertainty(u)
+        y.add_qualifier("SQRT(S)", 13.6, "TeV")
+        y.add_qualifier("Final state", "$H \\to X X \\to b\\bar{b}\\,b\\bar{b}$")
+        table.add_variable(y)
+
+        tables.append(table)
+    return tables
+
+def makeTrackingEfficiencyTable(trigger_or_offline):
+    if trigger_or_offline == 'HLT':
+        table = Table("HLT Tracking efficiency vs simulated radial position")
+        table.add_image("data_Enrico/ttbar_Run3_HLT_efficiency_r_logx.pdf")
+        table.location = "Data from Fig. 2 (right)"
+        table.description = "Overall standard tracking efficiency at the HLT during Run~3, as a function of the simulated radial position of the track production vertex. In the figure, \\ttbar simulation for 2025 conditions and an average PU of 62 is used, and the tracks are required to have $\pt>0.9\GeV$ and $\\abs{\eta}<2.5$. The tracking efficiency is defined as the ratio of the simulated tracks (with the aforementioned selection requirements) geometrically matched to a reconstructed track, divided by the total simulated tracks passing the selections."
+
+        reader = RootFileReader("data_Enrico/ttbar_Run3_HLT_efficiency_r_logx.root")
+        h_trkeff = reader.read_hist_1d("effic_vs_vertpos;1")
+
+        xvar = Variable("Radial vertex position ", is_independent=True, is_binned=False, units="cm")
+        xvar.values = h_trkeff["x"]
+
+        table.add_variable(xvar)
+        table.add_variable(makeVariable(plot = h_trkeff, label = "HLT tracking efficiency", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+
+        return table
+    elif trigger_or_offline == 'Offline':
+        table = Table("Offline Tracking efficiency vs simulated radial position")
+        table.add_image("data_Enrico/ttbar_Run3_efficiency_r_cum_logx.pdf")
+        table.location = "Data from Fig. 2 (left)"
+        table.description = "Offline standard tracking efficiency during Run~3 for different tracking iterations, as a function of simulated radial position of the track production vertex (left). In the figure, \\ttbar simulation for 2025 conditions and an average PU of 62 is used, and the tracks are required to have $\pt>0.9\GeV$ and $\\abs{\eta}<2.5$. The tracking efficiency is defined as the ratio of the simulated tracks (with the aforementioned selection requirements) geometrically matched to a reconstructed track, divided by the total simulated tracks passing the selections."
+
+        reader = RootFileReader("data_Enrico/ttbar_Run3_efficiency_r_cum_logx.root")
+        h_trkeff = reader.retrieve_object("effic_vs_vertpos;1")
+
+        total_eff = None
+        for h in h_trkeff.GetHists():
+            trk_eff_by_iter = get_hist_1d_points(h)
+            table.add_variable(makeVariable(plot = trk_eff_by_iter, label = f"{h.GetName()} iteration tracking efficiency", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+            xvar_values = trk_eff_by_iter['x']
+            if total_eff is None:
+                total_eff = trk_eff_by_iter['y']
+            else:
+                total_eff = [total_eff[i] + trk_eff_by_iter['y'][i] for i in range(len(total_eff))]
+        total_y = Variable("Total offline tracking efficiency", is_independent=False, is_binned=False, units="")
+        total_y.values = total_eff
+        table.add_variable(total_y)
+
+
+        xvar = Variable("Radial vertex position ", is_independent=True, is_binned=False, units="cm")
+        xvar.values = xvar_values
+        table.add_variable(xvar)
+        return table
+    else:
+        raise ValueError("Must pass either HLT or Offline")
+# Figure 48
+def makeScoutingMuonDataEffVSPtTable():
+    table = Table("Scouting dimuon trigger eff vs pt in data")
+    table.description = "L1T+HLT efficiency of the dimuon scouting trigger as a function of the subleading muon $p_{T}$, for 2024 data. The efficiency of the L1T dimuon seeds (pink squares) and the HLT dimuon scouting trigger with the vertex-unconstrained reconstruction algorithm (blue triangles) is shown. The events in the denominator are required to have at least two vertex-unconstrained muons ($N_{\\mu(\\text{no-vtx})} > 2$) and additionally have $\\chi^2/N_{\\text{dof}} < 3$ and $\\Delta R > 0.1$."
+
+    table.location = "Data from Fig. 48"
+    table.add_image("data_Celia/LLP-Paper_DoubleMuonEfficiency_data_pt.pdf")
+    reader = RootFileReader("data_Celia/Scouting_DoubleMuonEfficiency_data_pt.root")
+    graph_L1 = reader.read_teff("efficiency_pt_L1;1")
+    graph_HLT = reader.read_teff("efficiency_pt_HLT;1")
+
+    subpT = Variable("sub $\mathrm{p_{T}}$", is_independent=True, is_binned=False, units="GeV")
+    subpT.values = graph_L1["x"]
+
+    ### add variables and add table to submission
+    table.add_variable(subpT)
+    table.add_variable(makeVariable(plot = graph_L1, label = "Dimuon Level-1 seeds", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot = graph_HLT, label = "Dimuon HLT scouting trigger", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+
+# Figure 49
+def makeScoutingMuonSigEffVSLxyTable():
+    table = Table("Scouting dimuon trigger eff vs Lxy")
+    table.description = "L1T+HLT efficiency of the dimuon scouting trigger as a function of the generator-level $L_{xy}$, for HAHM signal events, for 2024 conditions. The efficiency is shown for $m_{Z_D} = 14$ GeV and $c\\tau = 100$ mm (pink squares) and $m_{Z_D} = 2.5$ GeV and $c\\tau = 100$ mm (blue triangles). The muons are required to have $p_{T} > 15$ GeV and $|\\eta| < 2.4$ at the generator level."
+
+    table.location = "Data from Fig. 49"
+    table.add_image("data_Celia/LLP-Paper_signalEfficiency_lxy.pdf")
+    reader = RootFileReader("data_Celia/Scouting_signalEfficiency_lxy.root")
+    graph_2p5 = reader.read_teff("efficiency_minlxy_DoubleMuonNoVtx_2p5_100mm;1")
+    graph_14 = reader.read_teff("efficiency_minlxy_DoubleMuonNoVtx_14_100mm;1")
+
+    lxy = Variable("gen $\mathrm{L_{xy}}$", is_independent=True, is_binned=False, units="cm")
+    lxy.values = graph_2p5["x"]
+
+    ### add variables and add table to submission
+    table.add_variable(lxy)
+    table.add_variable(makeVariable(plot = graph_2p5, label = "$m_{Z_D} = 2.5$ GeV, $c\\tau = 100$ mm", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot = graph_14, label = "$m_{Z_D} = 14$ GeV, $c\\tau = 100$ mm", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+# Figure 50
+def makeScoutingMuonSigEffVSPtTable(mass):
+    table = Table("Scouting dimuon trigger eff vs sub $\mathrm{p_{T}}$ for m = " + mass)
+    table.description = "L1T+HLT efficiency of the dimuon scouting trigger as a function of the generator-level subleading muon $\mathrm{p_{T}}$, for HAHM signal events for 2024 conditions. The efficiency is shown for $m_{Z_D}$ masses of 2.5 and 14 GeV, and $c\\tau$ values of 1 (purple squares), 10 (blue triangles), and 100 mm (pink circles). The muons are required to have $|\eta|<2.4$ at the generator level."
+    
+    if mass=="2.5":
+        table.location = "Data from Fig. 50 left"
+        table.add_image("data_Celia/LLP-Paper_signalEfficiency_pt_mZD-2p5GeV.pdf")
+        reader = RootFileReader("data_Celia/Scouting_signalEfficiency_pt_mZD-2p5GeV.root")
+        graph_1mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_2p5_1mm;1")
+        graph_10mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_2p5_10mm;1")
+        graph_100mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_2p5_100mm;1")
+    if mass=="14":
+        table.location = "Data from Fig. 50 right"
+        table.add_image("data_Celia/LLP-Paper_signalEfficiency_pt_mZD-14GeV.pdf")
+        reader = RootFileReader("data_Celia/Scouting_signalEfficiency_pt_mZD-14GeV.root")
+        graph_1mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_14_1mm;1")
+        graph_10mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_14_10mm;1")
+        graph_100mm = reader.read_teff("efficiency_minpt_DoubleMuonNoVtx_14_100mm;1")
+
+    subpT = Variable("sub $\mathrm{p_{T}}$", is_independent=True, is_binned=False, units="GeV")
+    subpT.values = graph_1mm["x"]
+
+    ### add variables and add table to submission
+    table.add_variable(subpT)
+    table.add_variable(makeVariable(plot = graph_1mm, label = "$m_{Z_D} = %s$ GeV, $c\\tau = 1$ mm"%(mass), is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot = graph_10mm, label = "$m_{Z_D} = %s$ GeV, $c\\tau = 10$ mm"%(mass), is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot = graph_100mm, label = "$m_{Z_D} = %s$ GeV, $c\\tau = 100$ mm"%(mass), is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+# Figure 51
+def makeScoutingMuonRecoEffVSLxyTable(mass):
+    table = Table("Scouting reconstruction eff vs Lxy for m = " + mass)
+    table.description = "Scouting muon reconstruction efficiency of the vertex-constrained (pink circles) and vertex-unconstrained (blue triangles) algorithms as a function of the generator-level $L_{xy}$, for HAHM signal events for 2024 conditions. This efficiency is representative of the reconstruction efficiency of the L2 and L3 HLT muon reconstruction employed in scouting data. The efficiency is shown for $m_{Z_D} = 2.5$ GeV and $c\\tau = 100$ mm and $m_{Z_D} = 14$ GeV and $c\\tau = 100$ mm. The muons are required to have $p_{T} > 15$ GeV and $|\\eta| < 2.4$ at the generator level."
+    
+    if mass=="2.5":
+        table.location = "Data from Fig. 51 left"
+        table.add_image("data_Celia/LLP-Paper_signalEfficiency_recolxy_2p5GeV_100mm.pdf")
+        reader = RootFileReader("data_Celia/Scouting_signalEfficiency_lxy_2p5GeV_100mm.root")
+        graph_vtx = reader.read_teff("efficiency_lxy_vtx_2p5_100mm;1")
+        graph_novtx = reader.read_teff("efficiency_lxy_novtx_2p5_100mm;1")
+    if mass=="14":
+        table.location = "Data from Fig. 51 right"
+        table.add_image("data_Celia/LLP-Paper_signalEfficiency_recolxy_14GeV_100mm.pdf")
+        reader = RootFileReader("data_Celia/Scouting_signalEfficiency_lxy_14GeV_100mm.root")
+        graph_vtx = reader.read_teff("efficiency_lxy_vtx_14_100mm;1")
+        graph_novtx = reader.read_teff("efficiency_lxy_novtx_14_100mm;1")
+
+    lxy = Variable("gen $\mathrm{L_{xy}}$", is_independent=True, is_binned=False, units="cm")
+    lxy.values = graph_vtx["x"]
+
+    ### add variables and add table to submission
+    table.add_variable(lxy)
+    table.add_variable(makeVariable(plot = graph_vtx, label = "Vertex-constrained reconstruction", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot = graph_novtx, label = "Vertex-unconstrained reconstruction", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+# Figure 52
+def makeScoutingMuonResolutionTable():
+    table = Table("Scouting resolution vs pt")
+    table.description = "The $p_{T}$ resolution of scouting muons with respect to offline muons, as a function of the scouting muon $p_{T}$, for 2024 data events. The root mean square (RMS) of the difference of the scouting muon $p_{T}$ and the offline muon $p_{T}$, divided by the offline muon $p_{T}$, is plotted. The dimuon $\\Delta R$ is required to be greater than 0.2, and the scouting muon $p_{T}$ is required to be greater than 3 GeV. The resolution is shown for muons in the barrel (blue filled points) and the endcaps (purple filled triangles) that are reconstructed with both the vertex-unconstrained reconstruction algorithm, as well as for muons in the barrel (red filled squares) and the endcaps (orange unfilled squares) that are reconstructed with the vertex-constrained reconstruction algorithm. A special monitoring data set is used that collects events triggered by a mixture of HLT paths (both scouting and standard triggers) with a very high prescale, in which all information about the muon objects is stored from the offline and scouting reconstruction."
+
+    table.location = "Data from Fig. 52"
+    table.add_image("data_Celia/LLP-Paper_bothReco_ptres_graph_BE_2024.pdf")
+
+    reader_noVtxMu = RootFileReader("data_Celia/TGraph_ptres_noVtxMu_v2.root")
+    graph_noVtxMu_B = reader_noVtxMu.read_graph("noVtxMu_B;1")
+    graph_noVtxMu_E = reader_noVtxMu.read_graph("noVtxMu_E;1")
+
+    reader_vtxMu = RootFileReader("data_Celia/TGraph_ptres_vtxMu_v2.root")
+    graph_vtxMu_B = reader_vtxMu.read_graph("vtxMu_B;1")
+    graph_vtxMu_E = reader_vtxMu.read_graph("vtxMu_E;1")
+
+    pT = Variable("$\mathrm{p_{T}}$", is_independent=True, is_binned=False, units="GeV")
+    pT.values = graph_noVtxMu_B["x"]
+
+    ### add variables and add table to submission
+    table.add_variable(pT)
+    table.add_variable(makeVariable(plot = graph_noVtxMu_B, label = "Barrel: vertex-unconstrained reconstruction", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+    table.add_variable(makeVariable(plot = graph_noVtxMu_E, label = "Endcap: vertex-unconstrained reconstruction", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+    table.add_variable(makeVariable(plot = graph_vtxMu_B, label = "Barrel: vertex-constrained reconstruction", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+    table.add_variable(makeVariable(plot = graph_vtxMu_E, label = "Encap: vertex-constrained reconstruction", is_independent=False, is_binned=False, is_symmetric=True, units=""))
+
+    return table
+
 
 def main():
     # Check if ImageMagick is available for image processing
@@ -1155,6 +1500,10 @@ def main():
     
     successful_figures = 0
 
+    # Figure 2
+    submission.add_table(makeTrackingEfficiencyTable("Offline"))
+    submission.add_table(makeTrackingEfficiencyTable("HLT"))
+
     # Figure 13
     submission.add_table(makeDisplacedTauEffTable('MET'))
     submission.add_table(makeDisplacedTauEffTable('d0'))
@@ -1176,6 +1525,17 @@ def main():
     # Figure 24
     submission.add_table(makeHcalL1DecayREffTable())
 
+    # Figure 27
+    submission.add_table(makeDelayedJetEfficiencyTable())
+
+    # Figure 28
+    submission.add_table(makeDelayedHTTauTable("data_Neha/Signal_efficiency_HT430vsL1Tau_HtoXXto4b.root", "4b", "4b", "(left)"))
+    submission.add_table(makeDelayedHTTauTable("data_Neha/Signal_efficiency_HT430vsL1Tau_HtoXXto4tau.root", "4tau", "4\\tau", "(right)"))
+
+    # Figure 29
+    submission.add_table(makeDelayedJetTimeTable("data_Neha/HLT_HTg430_Delayedjet2nsthreshold_efficiency.root","$H_{T}$-seeded delayed jet trigger efficiency vs jet time"," HLT selection: $H_{T}> 430 GeV$, $\\geq 1$ jet with $p_{T} > 40 GeV$ and $t > 2 ns$.","(left)"))
+    submission.add_table(makeDelayedJetTimeTable("data_Neha/HLT_L1Tau_Delayedjet3p5nsthreshold_efficiency.root","L1Tau-seeded delayed jet trigger efficiency vs jet time"," HLT selection: L1Tau, $\\geq 1$ jet with $p_{T} > 40 GeV$ and $t > 3.5 ns$.","(right)"))
+    
     # Figure 31
     submission.add_table(makeDelayedDiPhotonHistTable("eb"))
     submission.add_table(makeDelayedDiPhotonHistTable("ee"))
@@ -1237,6 +1597,24 @@ def main():
     submission.add_table(makeDoubleDispL3MuonDataMCEffTable("min($\mathrm{d_{0}}$)"))
     submission.add_table(makeDoubleDispL3MuonDataMCEffTable("min($\mathrm{p_{T}}$)"))
 
+    #Figure 48
+    submission.add_table(makeScoutingMuonDataEffVSPtTable())
+
+    #Figure 49
+    submission.add_table(makeScoutingMuonSigEffVSLxyTable())
+    
+    #Figure 50
+    submission.add_table(makeScoutingMuonSigEffVSPtTable("2.5")) # left
+    submission.add_table(makeScoutingMuonSigEffVSPtTable("14")) # right
+    
+    #Figure 51
+    submission.add_table(makeScoutingMuonRecoEffVSLxyTable("2.5")) # left
+    submission.add_table(makeScoutingMuonRecoEffVSLxyTable("14")) # right
+
+    #Figure 52
+    submission.add_table(makeScoutingMuonResolutionTable())
+
+
     #Figure 58
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2016"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2017"))
@@ -1245,6 +1623,16 @@ def main():
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2023"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2024"))
 
+    #Figure 65
+    mass_points = [(125,25), (350,80), (350,160), (1000,200)]
+    for mH, mX in mass_points:
+        for t in makeAcceptanceTables(mH, mX, "R"):
+            submission.add_table(t)
+    #Figure 66
+    for mH, mX in mass_points:
+        for t in makeAcceptanceTables(mH, mX, "Z"):
+            submission.add_table(t)
+        
     # Figure 69
     submission.add_table(makeHLTMuResoTable("genpt"))
     submission.add_table(makeHLTMuResoTable("genlxy"))
