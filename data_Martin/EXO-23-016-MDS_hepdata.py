@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
 
 import os
 import pickle
@@ -12,9 +8,8 @@ import numpy as np
 hep.style.use("CMS")
 import matplotlib.patches as patches
 
-
-
-# In[9]:
+import numpy as np
+from typing import Any, Dict, List
 
 
 import numpy as np
@@ -126,31 +121,11 @@ def compute_ratio_arrays(
 
 
 
+def to_bins(edges):
+    bin_tuples = np.empty(len(edges) - 1, dtype=object)
+    bin_tuples[:] = list(zip(edges[:-1], edges[1:]))
+    return bin_tuples
 
-
-# In[54]:
-
-
-
-#try:
-#    from hepdata_lib import Table, Variable
-#except Exception as exc:
-#    raise RuntimeError("hepdata_lib is required (pip install hepdata_lib): %s" % exc)
-
-#import hepdata_lib
-
-
-# In[54]:                                                                                                                                                 
-
-
-#import numpy as np
-#from typing import Any, Dict, List
-#from hepdata_lib import Table, Variable, Uncertainty, Submission
-
-#try:
-#    from hepdata_lib import Table, Variable, Uncertainty, Submission
-#except Exception as exc:
-#    raise RuntimeError("hepdata_lib is required (pip install hepdata_lib): %s" % exc)
 
 def make_hepdata_table_from_arrays(
     arrays: Dict[str, Any],
@@ -195,9 +170,9 @@ def make_hepdata_table_from_arrays(
         # dependent value and asymmetric errors
         val = ratio[idx]
         if np.isnan(val):
-            val_item = None
-            down = None
-            up = None
+            val_item = 0 
+            down = 0
+            up = 1e-9
         else:
             val_item = float(val)
             down = float(ratio_uncert[(0,) + idx])
@@ -205,17 +180,17 @@ def make_hepdata_table_from_arrays(
         # append as a 2-tuple: (value, (minus, plus))
         dep_values.append((val_item, (down, up)))
 
-        # independent values: append tuple (low, high) for each independent axis
-        for axis_i, bin_i in enumerate(idx):
-            e = edges_list[axis_i]
-            ind_values_per_axis[axis_i].append((float(e[bin_i]), float(e[bin_i + 1])))
 
     # Build table and Variables
     table = Table(table_name)
+    #format axis entries from arrays
+    axes_entries = [to_bins(x) for x in edges_list]
+    axes_entries= np.meshgrid(*axes_entries)
 
-    for axis_i, e_vals in enumerate(ind_values_per_axis):
+    for axis_i, x_edges in enumerate(edges_list):
         var_name = independent_names[axis_i] if axis_i < len(independent_names) else f"axis_{axis_i}"
         unit = independent_units[axis_i] if axis_i < len(independent_units) else ""
+        e_vals = axes_entries[axis_i].flatten().tolist()
         xvar = Variable(var_name, is_independent=True, units=unit, values=e_vals)
         table.add_variable(xvar)
 
@@ -246,19 +221,7 @@ def make_hepdata_table_from_arrays(
 # table  # returns hepdata_lib.Table
 
 
-# In[146]:
-
-
-#with open("data_Martin/EXO-23-016-MDS-hist.pkl",'rb') as f:
-#    histograms = pickle.load(f)
-
-
-# # Fig 56
-
-# In[180]:
-
-
-def makeFig56table(histograms):
+def makeFig56leftTable(histograms):
     arrays = compute_ratio_arrays(histograms['fig56_l'], "numer_hlt", "denom_hlt")
     table = make_hepdata_table_from_arrays(arrays,
                                            table_name ="Fig 56",
@@ -266,22 +229,19 @@ def makeFig56table(histograms):
                                            independent_units =["GeV"],
                                            dependent_name= 'HLT efficiency'
                                           )
+    return table
+def makeFig56rightTable(histograms):    
     arrays = compute_ratio_arrays(histograms['fig56_r'], "numer_hlt", "denom_hlt")
-    table_r = make_hepdata_table_from_arrays(arrays,
+    table = make_hepdata_table_from_arrays(arrays,
                                        table_name ="Fig 56r",
                                        independent_names = ["Cluster Size"],
                                        independent_units =[""],
                                        dependent_name= 'HLT efficiency'
                                       )
-    table.add_variable(table_r.variable[1])
     return table
 
 
-# # Fig 60
 
-# In[176]:
-
-#import hepdata_lib
 
 def makeFig60table(histograms):
     results = histograms['results']
@@ -306,6 +266,7 @@ def makeFig60table(histograms):
     data = np.array(sorted([[ctau/1000,v["METDT_dt"]/v['denom_dt']] for (mass,ctau),v in results.items() if v['denom_dt']>100 and mass==mS],key=lambda x: x[0]))
     run3_dt = Variable("Run 3 DT L1T+HLT - acceptance", is_independent=False,is_binned=False, units="", values=list(data[:,1]))
     
+    table.add_variable(ctau)
     table.add_variable(run2_csc)
     table.add_variable(run3_csc_l1)
     table.add_variable(run3_csc_hlt)
@@ -313,16 +274,6 @@ def makeFig60table(histograms):
     table.add_variable(run3_dt)
     return table
 
-
-# In[178]:
-
-
-#makeFig60table(histograms)
-
-
-# # Fig 61
-
-# In[174]:
 
 
 def makeFig61table(histograms):
@@ -333,6 +284,7 @@ def makeFig61table(histograms):
                                        independent_units =["cm"],
                                        dependent_name= 'L1T Acceptance'
                                       )
+    arrays = compute_ratio_arrays(histograms['fig61'], "numer", "denom")    
     hlt_table = make_hepdata_table_from_arrays(arrays,
                                        table_name ="temp",
                                        independent_names = ["LLP decay z"],
@@ -372,22 +324,23 @@ def makeFig62table(histograms):
 # In[172]:
 
 
-def makeFig63table(histograms):
+def makeFig63leftTable(histograms):
     arrays = compute_ratio_arrays(histograms['fig63'], "numer_l1", "denom")
-    arrays_hlt = compute_ratio_arrays(histograms['fig63'], "numer", "denom")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 63",
-                                       independent_names = ["LLP decay z","LLP decay R"],
+                                       table_name ="Fig 63 left",
+                                       independent_names = ["LLP decay Z","LLP decay R"],
                                        independent_units =["cm","cm"],
                                        dependent_name= 'L1T Acceptance'
                                       )
-    hlt_table = make_hepdata_table_from_arrays(arrays_hlt,
-                                       table_name ="Fig 63",
-                                       independent_names = ["LLP decay z","LLP decay R"],
+    return table
+def makeFig63rightTable(histograms):    
+    arrays_hlt = compute_ratio_arrays(histograms['fig63'], "numer", "denom")
+    table = make_hepdata_table_from_arrays(arrays_hlt,
+                                       table_name ="Fig 63 right",
+                                       independent_names = ["LLP decay Z","LLP decay R"],
                                        independent_units =["cm","cm"],
                                        dependent_name= 'L1T+HLT Acceptance'
                                       )
-    table.add_variable(hlt_table.variables[2])
     return table
 
 
@@ -411,11 +364,13 @@ def makeFig64table(histograms):
 
 
 def makeMDStables(histograms):
-    makeFig56table(histograms)
+    makeFig56leftTable(histograms)
+    makeFig56rightTable(histograms)
     makeFig60table(histograms)
     makeFig61table(histograms)
     makeFig62table(histograms)
-    makeFig63table(histograms)
+    makeFig63leftTable(histograms)
+    makeFig63rightTable(histograms)
     makeFig64table(histograms)
 
 # Create the submission object                                                                                                              
@@ -427,16 +382,16 @@ output_dir = "hepdataMartin_output"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-#submission.add_table(makeFig56table(histograms))
+submission.add_table(makeFig56leftTable(histograms))
+submission.add_table(makeFig56rightTable(histograms))
 submission.add_table(makeFig60table(histograms))
 submission.add_table(makeFig61table(histograms))
 submission.add_table(makeFig62table(histograms))
-#submission.add_table(makeFig63table(histograms))
-#submission.add_table(makeFig64table(histograms))
+submission.add_table(makeFig63leftTable(histograms))
+submission.add_table(makeFig63rightTable(histograms))
+submission.add_table(makeFig64table(histograms))
 
 submission.create_files(output_dir,remove_old=True)
-
-# In[ ]:
 
 
 
