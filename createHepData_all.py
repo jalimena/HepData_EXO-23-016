@@ -28,8 +28,22 @@ import sys
 import yaml
 import shutil
 import subprocess
+
 from hepdata_lib import RootFileReader, Submission, Variable, Uncertainty, Table
 from hepdata_lib.root_utils import get_hist_1d_points
+
+#import pickle
+#import matplotlib.pyplot as plt
+#import mplhep as hep
+#import numpy as np
+#hep.style.use("CMS")
+#import matplotlib.patches as patches
+
+
+#import numpy as np
+#from typing import Any, Dict, List, Union
+
+from MDSHepData import *
 
 # Import the helper function from readTest.py
 sys.path.append('.')
@@ -1722,7 +1736,10 @@ def main():
     #Figure 52
     submission.add_table(makeScoutingMuonResolutionTable())
 
-
+    #Figure 56
+    submission.add_table(makeFig56leftTable(histograms))
+    submission.add_table(makeFig56rightTable(histograms))
+    
     #Figure 58
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2016"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2017"))
@@ -1730,6 +1747,14 @@ def main():
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2022"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2023"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2024"))
+
+    #Figures 60-64
+    submission.add_table(makeFig60table(histograms))
+    submission.add_table(makeFig61table(histograms))
+    submission.add_table(makeFig62table(histograms))
+    submission.add_table(makeFig63leftTable(histograms))
+    submission.add_table(makeFig63rightTable(histograms))
+    submission.add_table(makeFig64table(histograms))
 
     #Figure 65
     mass_points = [(125,25), (350,80), (350,160), (1000,200)]

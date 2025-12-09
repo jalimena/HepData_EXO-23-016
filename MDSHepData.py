@@ -1,16 +1,10 @@
-
 import os
 import pickle
 import matplotlib.pyplot as plt
 import mplhep as hep
-#from coffea import hist
 import numpy as np
 hep.style.use("CMS")
 import matplotlib.patches as patches
-
-import numpy as np
-from typing import Any, Dict, List
-
 
 import numpy as np
 from typing import Any, Dict, List, Union
@@ -128,14 +122,15 @@ def to_bins(edges):
 
 
 def make_hepdata_table_from_arrays(
-    arrays: Dict[str, Any],
-    table_name: str,
-    #independent_names: List[str] | None = None,
-    #independent_units: List[str] | None = None,
-    independent_names: Union[List[str], None] = None,
-    independent_units: Union[List[str], None] = None,
-    dependent_name: str = "ratio",
-    dependent_units: str = "",
+        arrays: Dict[str, Any],
+        table_name: str,
+        table_description: str,
+        table_location: str,
+        table_image: str,
+        independent_names: Union[List[str], None] = None,
+        independent_units: Union[List[str], None] = None,
+        dependent_name: str = "ratio",
+        dependent_units: str = "",
 ):
     """
     Build and return a hepdata_lib Table from the arrays produced by compute_ratio_arrays.
@@ -183,6 +178,10 @@ def make_hepdata_table_from_arrays(
 
     # Build table and Variables
     table = Table(table_name)
+    table.description = table_description
+    table.location = table_location
+    table.add_image(table_image)
+    
     #format axis entries from arrays
     axes_entries = [to_bins(x) for x in edges_list]
     axes_entries= np.meshgrid(*axes_entries)
@@ -224,20 +223,27 @@ def make_hepdata_table_from_arrays(
 def makeFig56leftTable(histograms):
     arrays = compute_ratio_arrays(histograms['fig56_l'], "numer_hlt", "denom_hlt")
     table = make_hepdata_table_from_arrays(arrays,
-                                           table_name ="Fig 56",
-                                           independent_names = ["MET"],
+                                           table_name ="HLT efficiency of DT MDS vs ptmiss",
+                                           table_description = "The HLT efficiency of the DT MDS triggers as a function of $p_T^{miss}$, for simulated $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=125$ GeV, $m_{S}=40$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions. Events are required to have at least one cluster with more than 50 hits.",
+                                           table_location = "Data from Fig. 56 left",
+                                           table_image = "data_Martin/MDS_DT_eff_v_MET.pdf",
+                                           independent_names = ["$p_T^{miss}$"],
                                            independent_units =["GeV"],
                                            dependent_name= 'HLT efficiency'
-                                          )
+                                           )
     return table
+
 def makeFig56rightTable(histograms):    
     arrays = compute_ratio_arrays(histograms['fig56_r'], "numer_hlt", "denom_hlt")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 56r",
-                                       independent_names = ["Cluster Size"],
-                                       independent_units =[""],
-                                       dependent_name= 'HLT efficiency'
-                                      )
+                                           table_name ="HLT efficiency of DT MDS vs cluser size",
+                                           table_description = "The HLT efficiency of the DT MDS triggers as a function of cluster size, for simulated $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=125$ GeV, $m_{S}=40$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions. Events are required to have $p_T^{miss}>250$ GeV.",
+                                           table_location = "Data from Fig. 56 right",
+                                           table_image = "data_Martin/MDS_DT_eff_v_cls.pdf",          
+                                           independent_names = ["Cluster size"],
+                                           independent_units =[""],
+                                           dependent_name= 'HLT efficiency'
+                                           )
     return table
 
 
@@ -245,7 +251,12 @@ def makeFig56rightTable(histograms):
 
 def makeFig60table(histograms):
     results = histograms['results']
-    table = Table("LLP Run 2, Run 3 acceptance comparison")
+    table = Table("MDS Run 2, Run 3 acceptance comparison")
+    table.description = "Comparison of the acceptances in Run 2 and Run 3 for the CSC (left) and DT (right) MDS triggers at the L1T and HLT as functions of the LLP lifetime, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=125$ GeV and $m_{S}=40$ GeV, for 2023 conditions. The acceptance is defined as the fraction of events that pass the specified selection, given an LLP decay in the fiducial region of the CSCs (left) or DTs (right). The left plot compares the acceptance of the Run 2 strategy of triggering on $p_T^{miss}$ (blue circles), which corresponds to an offline requirement of $>200$ GeV, with that of the Run 3 strategy of triggering on the MDS signature in the CSCs, for both the L1T (L1T+HLT) acceptance is shown with orange squares (red triangles). The right plot compares the acceptance of the Run 2 strategy of triggering on $p_T^{miss}$ (blue circles) with the Run 3 strategy of triggering on the MDS signature in the DTs (red triangles), for L1T+HLT."
+    table.location = "Data from Fig. 60"
+    table.add_image("data_Martin/MDS_CSC_acc_v_ctau_mH-125_mS-40.pdf")
+    table.add_image("data_Martin/MDS_DT_acc_v_ctau_mH-125_mS-40.pdf")
+
     mH=125
     mS=40
     data = np.array(sorted([[ctau/1000,v["MET200_csc"]/v['denom_csc']] for (mass,ctau),v in results.items() if v['denom_csc']>0 and mass==mS],key=lambda x: x[0]))
@@ -279,18 +290,24 @@ def makeFig60table(histograms):
 def makeFig61table(histograms):
     arrays = compute_ratio_arrays(histograms['fig61'], "numer_l1", "denom")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 61",
-                                       independent_names = ["LLP decay z"],
-                                       independent_units =["cm"],
-                                       dependent_name= 'L1T Acceptance'
-                                      )
+                                           table_name ="L1T and L1T+HLT acceptance for CSC MDS",
+                                           table_description = "The L1T (blue circles) and L1T+HLT (orange squares) acceptances for the CSC MDS trigger as functions of the LLP decay positions in the $z$-direction, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions.",
+                                           table_location = "Data from Fig. 61",
+                                           table_image = "data_Martin/MDS_CSC_acc_v_Z.pdf",
+                                           independent_names = ["LLP decay Z"],
+                                           independent_units =["cm"],
+                                           dependent_name= 'L1T Acceptance'
+                                           )
     arrays = compute_ratio_arrays(histograms['fig61'], "numer", "denom")    
     hlt_table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="temp",
-                                       independent_names = ["LLP decay z"],
-                                       independent_units =["cm"],
-                                       dependent_name= 'L1T+HLT Acceptance'
-                                      )
+                                               table_name ="temp",
+                                               table_description = "",
+                                               table_location = "",
+                                               table_image = "data_Martin/MDS_CSC_acc_v_Z.pdf",
+                                               independent_names = ["LLP decay Z"],
+                                               independent_units =["cm"],
+                                               dependent_name= 'L1T+HLT Acceptance'
+                                               )
     table.add_variable(hlt_table.variables[1])
     return table
 
@@ -303,18 +320,24 @@ def makeFig61table(histograms):
 def makeFig62table(histograms):
     arrays = compute_ratio_arrays(histograms['fig62'], "numer_dt_L1MET_tight", "denom_dt_L1MET")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 62",
-                                       independent_names = ["LLP decay R"],
-                                       independent_units =["cm"],
-                                       dependent_name= 'HLT Acceptance'
-                                      )
-    arrays = compute_ratio_arrays(histograms['fig62'], "numer_dt_L1MET_tight", "denom")
-    hlt_table = make_hepdata_table_from_arrays(arrays,
-                                           table_name ="temp",
+                                           table_name ="HLT and L1T+HLT aceptance for DT MDS",
+                                           table_description = "The HLT (blue circles) and L1T+HLT (orange squares) acceptances for the DT MDS trigger as functions of the LLP decay positions in the radial direction, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions.",
+                                           table_location = "Data from Fig. 62",
+                                           table_image = "data_Martin/MDS_DT_acc_v_r.pdf",
                                            independent_names = ["LLP decay R"],
                                            independent_units =["cm"],
-                                           dependent_name= 'L1T+HLT Acceptance'
-                                          )
+                                           dependent_name= 'HLT Acceptance'
+                                           )
+    arrays = compute_ratio_arrays(histograms['fig62'], "numer_dt_L1MET_tight", "denom")
+    hlt_table = make_hepdata_table_from_arrays(arrays,
+                                               table_name ="temp",
+                                               table_description = "",
+                                               table_location = "",
+                                               table_image = "data_Martin/MDS_DT_acc_v_r.pdf",
+                                               independent_names = ["LLP decay R"],
+                                               independent_units =["cm"],
+                                               dependent_name= 'L1T+HLT Acceptance'
+                                               )
     table.add_variable(hlt_table.variables[1])
     return table
 
@@ -327,20 +350,27 @@ def makeFig62table(histograms):
 def makeFig63leftTable(histograms):
     arrays = compute_ratio_arrays(histograms['fig63'], "numer_l1", "denom")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 63 left",
-                                       independent_names = ["LLP decay Z","LLP decay R"],
-                                       independent_units =["cm","cm"],
-                                       dependent_name= 'L1T Acceptance'
-                                      )
+                                           table_name ="2D L1T acceptance for CSC MDS",
+                                           table_description = "The L1T acceptance for the CSC MDS trigger as functions of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions.",
+                                           table_location = "Data from Fig. 63 left",
+                                           table_image = "data_Martin/MDS_CSC_2D_L1acc_v_rZ.pdf",
+                                           independent_names = ["LLP decay Z","LLP decay R"],
+                                           independent_units =["cm","cm"],
+                                           dependent_name= 'L1T Acceptance'
+                                           )
     return table
+
 def makeFig63rightTable(histograms):    
     arrays_hlt = compute_ratio_arrays(histograms['fig63'], "numer", "denom")
     table = make_hepdata_table_from_arrays(arrays_hlt,
-                                       table_name ="Fig 63 right",
-                                       independent_names = ["LLP decay Z","LLP decay R"],
-                                       independent_units =["cm","cm"],
-                                       dependent_name= 'L1T+HLT Acceptance'
-                                      )
+                                           table_name ="2D L1T+HLT acceptance for CSC MDS",
+                                           table_description = "The L1T+HLT acceptance for the CSC MDS trigger as functions of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions.",
+                                           table_location = "Data from Fig. 63 right",
+                                           table_image = "data_Martin/MDS_CSC_2D_HLTacc_v_rZ.pdf",
+                                           independent_names = ["LLP decay Z","LLP decay R"],
+                                           independent_units =["cm","cm"],
+                                           dependent_name= 'L1T+HLT Acceptance'
+                                           )
     return table
 
 
@@ -352,11 +382,14 @@ def makeFig63rightTable(histograms):
 def makeFig64table(histograms):
     arrays = compute_ratio_arrays(histograms['fig64'], "numer_dt_L1MET", "denom_dt_L1MET")
     table = make_hepdata_table_from_arrays(arrays,
-                                       table_name ="Fig 64",
-                                       independent_names = ["LLP decay z","LLP decay R"],
-                                       independent_units =["cm","cm"],
-                                       dependent_name= 'HLT Acceptance'
-                                      )
+                                           table_name ="2D HLT acceptance for DT MDS",
+                                           table_description = "The HLT acceptance for the DT MDS trigger as a function of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions. The L1T acceptance that is based on the $p_T^{miss}$ trigger is not included.",
+                                           table_location = "Data from Fig. 64",
+                                           table_image = "data_Martin/MDS_DT_2D_HLTacc_v_rZ.pdf",
+                                           independent_names = ["LLP decay Z","LLP decay R"],
+                                           independent_units =["cm","cm"],
+                                           dependent_name= 'HLT Acceptance'
+                                           )
     return table
 
 
@@ -374,24 +407,24 @@ def makeMDStables(histograms):
     makeFig64table(histograms)
 
 # Create the submission object                                                                                                              
-submission = Submission()
+#submission = Submission()
 
  
 # Create output directory early                                                                                                             
-output_dir = "hepdataMartin_output"
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+#output_dir = "hepdataMartin_output"
+#if not os.path.exists(output_dir):
+#    os.makedirs(output_dir)
 
-submission.add_table(makeFig56leftTable(histograms))
-submission.add_table(makeFig56rightTable(histograms))
-submission.add_table(makeFig60table(histograms))
-submission.add_table(makeFig61table(histograms))
-submission.add_table(makeFig62table(histograms))
-submission.add_table(makeFig63leftTable(histograms))
-submission.add_table(makeFig63rightTable(histograms))
-submission.add_table(makeFig64table(histograms))
+#submission.add_table(makeFig56leftTable(histograms))
+#submission.add_table(makeFig56rightTable(histograms))
+#submission.add_table(makeFig60table(histograms))
+#submission.add_table(makeFig61table(histograms))
+#submission.add_table(makeFig62table(histograms))
+#submission.add_table(makeFig63leftTable(histograms))
+#submission.add_table(makeFig63rightTable(histograms))
+#submission.add_table(makeFig64table(histograms))
 
-submission.create_files(output_dir,remove_old=True)
+#submission.create_files(output_dir,remove_old=True)
 
 
 
