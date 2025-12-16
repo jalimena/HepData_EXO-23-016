@@ -555,26 +555,32 @@ void ttbar_Run3_efficiency_r_cum_logx()
    TPave *pave = new TPave(0.2,0.72,0.74,0.91,0,"brNDC");
    pave->SetFillColor(0);
    pave->Draw();
-   TLatex *   tex = new TLatex(0.21,0.86,"t#bar{t} events (#LTPU#GT=62)");
+   //TLatex *   tex = new TLatex(0.21,0.86,"t#bar{t} events (#LTPU#GT=62)");
+   TLatex *   tex = new TLatex(0.21,0.79,"t#bar{t} events (#LTPU#GT=62)");
    tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.21,0.8,"Track p_{T} > 0.9 GeV,");
+   //tex = new TLatex(0.21,0.8,"Track p_{T} > 0.9 GeV,");
+   tex = new TLatex(0.21,0.73,"Track p_{T} > 0.9 GeV,");
    tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.21,0.74,"|#eta| < 2.5");
+   //tex = new TLatex(0.21,0.74,"|#eta| < 2.5");
+   tex = new TLatex(0.21,0.675,"|#eta| < 2.5");
    tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
+
    
-   TLegend *leg = new TLegend(0.62,0.47,0.97,0.9,NULL,"brNDC");
+   //TLegend *leg = new TLegend(0.62,0.47,0.97,0.9,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.63,0.45,0.90,0.88,NULL,"NDC");
    leg->SetBorderSize(0);
    leg->SetTextFont(62);
-   leg->SetTextSize(0.04);
+   //leg->SetTextSize(0.04);
+   leg->SetTextSize(0.032);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);
    leg->SetLineWidth(1);
@@ -676,7 +682,7 @@ void ttbar_Run3_efficiency_r_cum_logx()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(62);
-   entry=leg->AddEntry("hist_8","+PixelLess","f");
+   entry=leg->AddEntry("hist_8","+Without pixel","f");
 
    ci = TColor::GetColor("#dee8c9");
    entry->SetFillColor(ci);
@@ -744,19 +750,23 @@ void ttbar_Run3_efficiency_r_cum_logx()
    tex->SetTextSize(0.048);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.18,0.936,"CMS");
+
+   //tex = new TLatex(0.18,0.936,"CMS");
+   tex = new TLatex(0.21,0.85,"CMS");
    tex->SetNDC();
    tex->SetTextFont(61);
    tex->SetTextSize(0.06);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.3151,0.936,"Simulation");
+   //tex = new TLatex(0.3151,0.936,"Simulation");
+   tex = new TLatex(0.3451,0.85,"Simulation");
    tex->SetNDC();
    tex->SetTextFont(52);
    tex->SetTextSize(0.0456);
    tex->SetLineWidth(2);
    tex->Draw();
-   
+
+
    TH1F *hframe_copy__8 = new TH1F("hframe_copy__8","",1000,0.01,2000);
    hframe_copy__8->SetMinimum(0);
    hframe_copy__8->SetMaximum(1.4);
@@ -787,4 +797,5 @@ void ttbar_Run3_efficiency_r_cum_logx()
    hframe_copy__8->Draw("sameaxis");
    ttbar_Run3_efficiency_r_cum_logx->Modified();
    ttbar_Run3_efficiency_r_cum_logx->SetSelected(ttbar_Run3_efficiency_r_cum_logx);
+   ttbar_Run3_efficiency_r_cum_logx->SaveAs("Figure_002-a.pdf");
 }

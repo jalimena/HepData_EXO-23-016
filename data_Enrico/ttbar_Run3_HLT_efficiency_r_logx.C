@@ -152,7 +152,8 @@ void ttbar_Run3_HLT_efficiency_r_logx()
    effic_vs_vertpos__20->GetZaxis()->SetTitleFont(42);
    effic_vs_vertpos__20->Draw("samePE");
    
-   TLegend *leg = new TLegend(0.55,0.63,0.95,0.78,NULL,"brNDC");
+   //TLegend *leg = new TLegend(0.55,0.63,0.95,0.78,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.45,0.55,0.85,0.70,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextFont(62);
    leg->SetTextSize(0.04);
@@ -179,18 +180,6 @@ void ttbar_Run3_HLT_efficiency_r_logx()
    tex->SetTextAlign(31);
    tex->SetTextFont(42);
    tex->SetTextSize(0.048);
-   tex->SetLineWidth(2);
-   tex->Draw();
-      tex = new TLatex(0.18,0.936,"CMS");
-   tex->SetNDC();
-   tex->SetTextFont(61);
-   tex->SetTextSize(0.06);
-   tex->SetLineWidth(2);
-   tex->Draw();
-      tex = new TLatex(0.3151,0.936,"Simulation");
-   tex->SetNDC();
-   tex->SetTextFont(52);
-   tex->SetTextSize(0.0456);
    tex->SetLineWidth(2);
    tex->Draw();
    
@@ -225,16 +214,35 @@ void ttbar_Run3_HLT_efficiency_r_logx()
    TPave *pave = new TPave(0.33,0.79,0.87,0.91,0,"brNDC");
    pave->SetFillColor(0);
    pave->Draw();
-      tex = new TLatex(0.34,0.86,"t#bar{t} events (#LTPU#GT=62)");
+   //tex = new TLatex(0.34,0.86,"t#bar{t} events (#LTPU#GT=62)");
+      tex = new TLatex(0.21,0.79,"t#bar{t} events (#LTPU#GT=62)");
    tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.34,0.81,"Track p_{T} > 0.9 GeV, |#eta| < 2.5");
+   //tex = new TLatex(0.34,0.81,"Track p_{T} > 0.9 GeV, |#eta| < 2.5");
+      tex = new TLatex(0.21,0.71,"Track p_{T} > 0.9 GeV, |#eta| < 2.5");
    tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
+
+   //tex = new TLatex(0.18,0.936,"CMS");
+   tex = new TLatex(0.21,0.85,"CMS");
+   tex->SetNDC();
+   tex->SetTextFont(61);
+   tex->SetTextSize(0.06);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   //tex = new TLatex(0.3151,0.936,"Simulation");
+   tex = new TLatex(0.3451,0.85,"Simulation");
+   tex->SetNDC();
+   tex->SetTextFont(52);
+   tex->SetTextSize(0.0456);
+   tex->SetLineWidth(2);
+   tex->Draw();
+
    ttbar_Run3_HLT_efficiency_r_logx->Modified();
    ttbar_Run3_HLT_efficiency_r_logx->SetSelected(ttbar_Run3_HLT_efficiency_r_logx);
+   ttbar_Run3_HLT_efficiency_r_logx->SaveAs("Figure_002-b.pdf");
 }
