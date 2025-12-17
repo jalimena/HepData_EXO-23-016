@@ -1,7 +1,7 @@
 #ifdef __CLING__
 #pragma cling optimize(0)
 #endif
-void testc2()
+void moreLogNoExponent_2022vs2023vMC_filterMET105()
 {
 //=========Macro generated from canvas: c2/c2
 //=========  (Mon Nov 24 22:21:11 2025) by ROOT version 6.26/11
@@ -635,10 +635,11 @@ void testc2()
    grae->SetTitle("");
    grae->SetFillStyle(1000);
    grae->SetMarkerStyle(20);
+   grae->SetMarkerSize(1.5);
    
    TH1F *Graph_filterMET105_2022Data3004 = new TH1F("Graph_filterMET105_2022Data3004","",100,30,1000);
    Graph_filterMET105_2022Data3004->SetMinimum(0);
-   Graph_filterMET105_2022Data3004->SetMaximum(1.3);
+   Graph_filterMET105_2022Data3004->SetMaximum(1.05);
    Graph_filterMET105_2022Data3004->SetDirectory(0);
    Graph_filterMET105_2022Data3004->SetStats(0);
    Graph_filterMET105_2022Data3004->SetLineStyle(0);
@@ -1282,6 +1283,7 @@ void testc2()
    grae->SetLineColor(4);
    grae->SetMarkerColor(4);
    grae->SetMarkerStyle(21);
+   grae->SetMarkerSize(1.5);
    
    TH1F *Graph_filterMET105_2023Data3005 = new TH1F("Graph_filterMET105_2023Data3005","MET no mu pt - hltMET105",100,0.9,1099.9);
    Graph_filterMET105_2023Data3005->SetMinimum(0);
@@ -1925,6 +1927,7 @@ void testc2()
    grae->SetLineColor(2);
    grae->SetMarkerColor(2);
    grae->SetMarkerStyle(22);
+   grae->SetMarkerSize(1.5);
    
    TH1F *Graph_filterMET105_MC3006 = new TH1F("Graph_filterMET105_MC3006","MET no mu pt - hltMET105",100,0.9,1099.9);
    Graph_filterMET105_MC3006->SetMinimum(0);
@@ -1955,7 +1958,7 @@ void testc2()
    
    grae->Draw("p,");
    
-   TLegend *leg = new TLegend(0.5891,0.7542,0.8395,0.9164,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.17,0.62,0.50,0.83,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.04359);
    leg->SetLineColor(1);
@@ -1969,7 +1972,7 @@ void testc2()
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(20);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    entry=leg->AddEntry("HLT_MET105_IsoTrk50_2023Data","2023 data","PEL");
    entry->SetLineColor(4);
@@ -1977,7 +1980,7 @@ void testc2()
    entry->SetLineWidth(1);
    entry->SetMarkerColor(4);
    entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    entry=leg->AddEntry("HLT_MET105_IsoTrk50_MC","W #rightarrow l #nu","PEL");
    entry->SetLineColor(2);
@@ -1985,13 +1988,13 @@ void testc2()
    entry->SetLineWidth(1);
    entry->SetMarkerColor(2);
    entry->SetMarkerStyle(22);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    leg->Draw();
-   TLine *line = new TLine(30,1,1000,1);
+   /*TLine *line = new TLine(30,1,1000,1);
    line->SetLineStyle(7);
    line->SetLineWidth(2);
-   line->Draw();
+   line->Draw();*/
    TLatex *   tex = new TLatex(0.93,0.948,"34.1 fb^{-1} (2022) + 27.7 fb^{-1} (2023) (13.6 TeV)");
 tex->SetNDC();
    tex->SetTextAlign(31);
@@ -1999,11 +2002,10 @@ tex->SetNDC();
    tex->SetTextSize(0.0429);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.171,0.907175,"CMS");
-tex->SetNDC();
-   tex->SetTextAlign(13);
+   tex = new TLatex(0.17,0.855,"CMS");
+   tex->SetNDC();
    tex->SetTextFont(61);
-   tex->SetTextSize(0.05265);
+   tex->SetTextSize(0.068);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.281,0.893995,"");
@@ -2016,4 +2018,6 @@ tex->SetNDC();
    c2->Modified();
    c2->cd();
    c2->SetSelected(c2);
+
+   c2->SaveAs("moreLogNoExponent_2022vs2023vMC_filterMET105.pdf");
 }

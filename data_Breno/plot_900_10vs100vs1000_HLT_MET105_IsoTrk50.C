@@ -1,7 +1,7 @@
 #ifdef __CLING__
 #pragma cling optimize(0)
 #endif
-void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
+void plot_900_10vs100vs1000_HLT_MET105_IsoTrk50()
 {
 //=========Macro generated from canvas: c/c
 //=========  (Mon Nov 24 22:39:47 2025) by ROOT version 6.26/11
@@ -36,7 +36,9 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    overallEff_HLT_MET105_IsoTrk50_10cm__1->SetMaximum(1);
    overallEff_HLT_MET105_IsoTrk50_10cm__1->SetEntries(5);
    overallEff_HLT_MET105_IsoTrk50_10cm__1->SetLineWidth(2);
+   overallEff_HLT_MET105_IsoTrk50_10cm__1->SetLineColor(1);
    overallEff_HLT_MET105_IsoTrk50_10cm__1->SetMarkerStyle(20);
+   overallEff_HLT_MET105_IsoTrk50_10cm__1->SetMarkerSize(1.5);
    overallEff_HLT_MET105_IsoTrk50_10cm__1->GetXaxis()->SetBinLabel(1,"3 layers");
    overallEff_HLT_MET105_IsoTrk50_10cm__1->GetXaxis()->SetBinLabel(2,"4 layers");
    overallEff_HLT_MET105_IsoTrk50_10cm__1->GetXaxis()->SetBinLabel(3,"5 layers");
@@ -78,6 +80,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    overallEff_HLT_MET105_IsoTrk50_100cm__2->SetLineWidth(2);
    overallEff_HLT_MET105_IsoTrk50_100cm__2->SetMarkerColor(4);
    overallEff_HLT_MET105_IsoTrk50_100cm__2->SetMarkerStyle(21);
+   overallEff_HLT_MET105_IsoTrk50_100cm__2->SetMarkerSize(1.5);
    overallEff_HLT_MET105_IsoTrk50_100cm__2->GetXaxis()->SetBinLabel(1,"3Layers");
    overallEff_HLT_MET105_IsoTrk50_100cm__2->GetXaxis()->SetBinLabel(2,"4Layers");
    overallEff_HLT_MET105_IsoTrk50_100cm__2->GetXaxis()->SetBinLabel(3,"5Layers");
@@ -112,6 +115,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->SetLineWidth(2);
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->SetMarkerColor(2);
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->SetMarkerStyle(22);
+   overallEff_HLT_MET105_IsoTrk50_1000cm__3->SetMarkerSize(1.5);
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->GetXaxis()->SetBinLabel(1,"3Layers");
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->GetXaxis()->SetBinLabel(2,"4Layers");
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->GetXaxis()->SetBinLabel(3,"5Layers");
@@ -127,7 +131,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->GetZaxis()->SetTitleFont(42);
    overallEff_HLT_MET105_IsoTrk50_1000cm__3->Draw("SAME");
    
-   TLegend *leg = new TLegend(0.1691,0.6542,0.5195,0.8964,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.16,0.62,0.50,0.83,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.04359);
    leg->SetLineColor(1);
@@ -149,7 +153,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    entry->SetLineWidth(2);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(20);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    entry=leg->AddEntry("overallEff_HLT_MET105_IsoTrk50_100cm","m_{#tilde{#chi}_{1}^{ #pm}} = 900 GeV, c #tau = 100 cm","PEL");
    entry->SetLineColor(4);
@@ -157,7 +161,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    entry->SetLineWidth(2);
    entry->SetMarkerColor(4);
    entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    entry=leg->AddEntry("overallEff_HLT_MET105_IsoTrk50_1000cm","m_{#tilde{#chi}_{1}^{ #pm}} = 900 GeV, c #tau = 1000 cm","PEL");
    entry->SetLineColor(2);
@@ -165,7 +169,7 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    entry->SetLineWidth(2);
    entry->SetMarkerColor(2);
    entry->SetMarkerStyle(22);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    leg->Draw();
    TLine *line = new TLine(3.5,0,3.5,1);
@@ -173,25 +177,29 @@ void 900_10vs100vs1000_HLT_MET105_IsoTrk50()
    line->SetLineWidth(2);
    line->Draw();
    TLatex *   tex = new TLatex(0.93,0.948,"(13.6 TeV)");
-tex->SetNDC();
+   tex->SetNDC();
    tex->SetTextAlign(31);
    tex->SetTextFont(42);
    tex->SetTextSize(0.0429);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.135,0.948,"CMS");
-tex->SetNDC();
+   
+   tex = new TLatex(0.17,0.86,"CMS");
+   tex->SetNDC();
    tex->SetTextFont(61);
-   tex->SetTextSize(0.05265);
+   tex->SetTextSize(0.06);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.216,0.948,"   Simulation");
-tex->SetNDC();
+   
+   tex = new TLatex(0.265,0.86 ,"   Simulation");
+   tex->SetNDC();
    tex->SetTextFont(52);
-   tex->SetTextSize(0.040014);
+   tex->SetTextSize(0.055);
    tex->SetLineWidth(2);
    tex->Draw();
    c->Modified();
    c->cd();
    c->SetSelected(c);
+
+   c->SaveAs("900_10vs100vs1000_HLT_MET105_IsoTrk50.pdf");
 }

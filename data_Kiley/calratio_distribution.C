@@ -68,11 +68,11 @@ void calratio_distribution()
    h_passL1_data__2->SetBinError(24,8.047081e-06);
    h_passL1_data__2->SetBinError(25,5.559079e-06);
    h_passL1_data__2->SetMinimum(0.0003);
-   h_passL1_data__2->SetMaximum(10);
+   h_passL1_data__2->SetMaximum(5);
    h_passL1_data__2->SetEntries(2911708);
    h_passL1_data__2->SetLineWidth(2);
    h_passL1_data__2->SetMarkerStyle(20);
-   h_passL1_data__2->SetMarkerSize(0.65);
+   h_passL1_data__2->SetMarkerSize(0.98);
    h_passL1_data__2->GetXaxis()->SetTitle(" Leading jet neutral hadron energy fraction");
    h_passL1_data__2->GetXaxis()->SetLabelFont(42);
    h_passL1_data__2->GetXaxis()->SetLabelSize(0.0394875);
@@ -144,7 +144,7 @@ void calratio_distribution()
    ci = TColor::GetColor("#cc0000");
    h_passL1_bkg__3->SetMarkerColor(ci);
    h_passL1_bkg__3->SetMarkerStyle(21);
-   h_passL1_bkg__3->SetMarkerSize(0.65);
+   h_passL1_bkg__3->SetMarkerSize(0.98);
    h_passL1_bkg__3->GetXaxis()->SetLabelFont(42);
    h_passL1_bkg__3->GetXaxis()->SetTitleOffset(1);
    h_passL1_bkg__3->GetXaxis()->SetTitleFont(42);
@@ -217,7 +217,7 @@ void calratio_distribution()
    ci = TColor::GetColor("#3399ff");
    h_passL1_sig1__4->SetMarkerColor(ci);
    h_passL1_sig1__4->SetMarkerStyle(22);
-   h_passL1_sig1__4->SetMarkerSize(0.65);
+   h_passL1_sig1__4->SetMarkerSize(0.98);
    h_passL1_sig1__4->GetXaxis()->SetLabelFont(42);
    h_passL1_sig1__4->GetXaxis()->SetTitleOffset(1);
    h_passL1_sig1__4->GetXaxis()->SetTitleFont(42);
@@ -290,7 +290,7 @@ void calratio_distribution()
    ci = TColor::GetColor("#000099");
    h_passL1_sig2__5->SetMarkerColor(ci);
    h_passL1_sig2__5->SetMarkerStyle(23);
-   h_passL1_sig2__5->SetMarkerSize(0.65);
+   h_passL1_sig2__5->SetMarkerSize(0.98);
    h_passL1_sig2__5->GetXaxis()->SetLabelFont(42);
    h_passL1_sig2__5->GetXaxis()->SetTitleOffset(1);
    h_passL1_sig2__5->GetXaxis()->SetTitleFont(42);
@@ -318,7 +318,7 @@ void calratio_distribution()
    tex->SetLineWidth(2);
    tex->Draw();
    
-   TLegend *leg = new TLegend(0,0,0,0,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.18,0.67,0.5,0.81,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.038025);
    leg->SetLineColor(1);
@@ -326,28 +326,28 @@ void calratio_distribution()
    leg->SetLineWidth(1);
    leg->SetFillColor(0);
    leg->SetFillStyle(0);
-   TLegendEntry *entry=leg->AddEntry("h_passL1_data","Data","p");
+   TLegendEntry *entry=leg->AddEntry("h_passL1_data__2","Data","lep");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
-   entry=leg->AddEntry("h_passL1_bkg","W #rightarrow l#nu+jets","p");
+   entry=leg->AddEntry("h_passL1_bkg__3","W #rightarrow l#nu+jets","lep");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
-   entry=leg->AddEntry("h_passL1_sig1","H #rightarrow SS #rightarrow 4b (350 GeV, 80 GeV, 0.5 m)","p");
+   entry=leg->AddEntry("h_passL1_sig1__4","H #rightarrow SS #rightarrow 4b (350 GeV, 80 GeV, 0.5 m)","lep");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
-   entry=leg->AddEntry("h_passL1_sig2","H #rightarrow SS #rightarrow 4b (125 GeV, 50 GeV, 3 m) ","p");
+   entry=leg->AddEntry("h_passL1_sig2__5","H #rightarrow SS #rightarrow 4b (125 GeV, 50 GeV, 3 m) ","lep");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
@@ -357,4 +357,7 @@ void calratio_distribution()
    leg->Draw();
    c1->Modified();
    c1->SetSelected(c1);
+
+   c1->SaveAs("calratio_distribution.pdf");
+
 }

@@ -42,7 +42,7 @@ void calratio_efficiency()
    h_passL1_data_clone_total__1->SetBinContent(24,549);
    h_passL1_data_clone_total__1->SetBinContent(25,262);
    h_passL1_data_clone_total__1->SetMinimum(0);
-   h_passL1_data_clone_total__1->SetMaximum(1.15);
+   h_passL1_data_clone_total__1->SetMaximum(1.0);
    h_passL1_data_clone_total__1->SetEntries(2911708);
    h_passL1_data_clone_total__1->SetDirectory(nullptr);
    h_passL1_data_clone_total__1->GetXaxis()->SetTitle(" Leading jet neutral hadron energy fraction");
@@ -69,7 +69,7 @@ void calratio_efficiency()
    h_passL1_data_clone1->SetBetaAlpha(1);
    h_passL1_data_clone1->SetBetaBeta(1);
    h_passL1_data_clone1->SetWeight(1);
-   h_passL1_data_clone1->SetStatisticOption(0);
+   h_passL1_data_clone1->SetStatisticOption(TEfficiency::kFCP);
    h_passL1_data_clone1->SetPosteriorMode(0);
    h_passL1_data_clone1->SetShortestInterval(0);
    h_passL1_data_clone1->SetTotalEvents(0,0);
@@ -128,10 +128,10 @@ void calratio_efficiency()
    h_passL1_data_clone1->SetPassedEvents(26,0);
    h_passL1_data_clone1->SetFillColor(19);
    h_passL1_data_clone1->SetMarkerStyle(20);
-   h_passL1_data_clone1->SetMarkerSize(0.65);
+   h_passL1_data_clone1->SetMarkerSize(0.95);
    h_passL1_data_clone1->Draw("samep");
    
-   TLegend *leg = new TLegend(0,0,0,0,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.18,0.7,0.55,0.8,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.043875);
    leg->SetLineColor(1);
@@ -139,13 +139,13 @@ void calratio_efficiency()
    leg->SetLineWidth(1);
    leg->SetFillColor(0);
    leg->SetFillStyle(0);
-   TLegendEntry *entry=leg->AddEntry("h_passL1_data_clone","Data","p");
+   TLegendEntry *entry=leg->AddEntry("h_passL1_data_clone","Data","lep");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(1);
    entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(1);
+   entry->SetMarkerSize(1.2);
    leg->Draw();
    TLatex *   tex = new TLatex(0.175,0.83,"CMS");
    tex->SetNDC();
@@ -166,4 +166,6 @@ void calratio_efficiency()
    tex->Draw();
    c1->Modified();
    c1->SetSelected(c1);
+
+   c1->SaveAs("calratio_efficiency.pdf");
 }
