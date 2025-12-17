@@ -54,7 +54,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineStyle(0);
    graph->SetLineWidth(2);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph1 = new TH1F("Graph_Graph1","Graph",100,0,440);
    Graph_Graph1->SetMinimum(0.004);
@@ -64,7 +64,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph1->SetLineStyle(0);
    Graph_Graph1->SetLineWidth(2);
    Graph_Graph1->SetMarkerStyle(20);
-   Graph_Graph1->SetMarkerSize(1.3);
+   Graph_Graph1->SetMarkerSize(1.8);
    Graph_Graph1->GetXaxis()->SetTitle("L_{xy}^{gen} [cm]");
    Graph_Graph1->GetXaxis()->SetRange(1,91);
    Graph_Graph1->GetXaxis()->SetLabelFont(42);
@@ -105,7 +105,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph2 = new TH1F("Graph_Graph2","Graph",100,2.9,4.1);
    Graph_Graph2->SetMinimum(0.0036);
@@ -115,7 +115,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph2->SetLineStyle(0);
    Graph_Graph2->SetLineWidth(2);
    Graph_Graph2->SetMarkerStyle(20);
-   Graph_Graph2->SetMarkerSize(1.3);
+   Graph_Graph2->SetMarkerSize(1.8);
    Graph_Graph2->GetXaxis()->SetLabelFont(42);
    Graph_Graph2->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph2->GetXaxis()->SetLabelSize(0.05);
@@ -151,7 +151,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph3 = new TH1F("Graph_Graph3","Graph",100,6.9,8.1);
    Graph_Graph3->SetMinimum(0.0036);
@@ -161,7 +161,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph3->SetLineStyle(0);
    Graph_Graph3->SetLineWidth(2);
    Graph_Graph3->SetMarkerStyle(20);
-   Graph_Graph3->SetMarkerSize(1.3);
+   Graph_Graph3->SetMarkerSize(1.8);
    Graph_Graph3->GetXaxis()->SetLabelFont(42);
    Graph_Graph3->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph3->GetXaxis()->SetLabelSize(0.05);
@@ -197,7 +197,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph4 = new TH1F("Graph_Graph4","Graph",100,10.9,12.1);
    Graph_Graph4->SetMinimum(0.0036);
@@ -207,7 +207,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph4->SetLineStyle(0);
    Graph_Graph4->SetLineWidth(2);
    Graph_Graph4->SetMarkerStyle(20);
-   Graph_Graph4->SetMarkerSize(1.3);
+   Graph_Graph4->SetMarkerSize(1.8);
    Graph_Graph4->GetXaxis()->SetLabelFont(42);
    Graph_Graph4->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph4->GetXaxis()->SetLabelSize(0.05);
@@ -243,7 +243,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph5 = new TH1F("Graph_Graph5","Graph",100,15.9,17.1);
    Graph_Graph5->SetMinimum(0.0036);
@@ -253,7 +253,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph5->SetLineStyle(0);
    Graph_Graph5->SetLineWidth(2);
    Graph_Graph5->SetMarkerStyle(20);
-   Graph_Graph5->SetMarkerSize(1.3);
+   Graph_Graph5->SetMarkerSize(1.8);
    Graph_Graph5->GetXaxis()->SetLabelFont(42);
    Graph_Graph5->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph5->GetXaxis()->SetLabelSize(0.05);
@@ -289,7 +289,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph6 = new TH1F("Graph_Graph6","Graph",100,24.4,25.6);
    Graph_Graph6->SetMinimum(0.0036);
@@ -299,7 +299,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph6->SetLineStyle(0);
    Graph_Graph6->SetLineWidth(2);
    Graph_Graph6->SetMarkerStyle(20);
-   Graph_Graph6->SetMarkerSize(1.3);
+   Graph_Graph6->SetMarkerSize(1.8);
    Graph_Graph6->GetXaxis()->SetLabelFont(42);
    Graph_Graph6->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph6->GetXaxis()->SetLabelSize(0.05);
@@ -335,7 +335,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph7 = new TH1F("Graph_Graph7","Graph",100,33.4,34.6);
    Graph_Graph7->SetMinimum(0.0036);
@@ -345,7 +345,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph7->SetLineStyle(0);
    Graph_Graph7->SetLineWidth(2);
    Graph_Graph7->SetMarkerStyle(20);
-   Graph_Graph7->SetMarkerSize(1.3);
+   Graph_Graph7->SetMarkerSize(1.8);
    Graph_Graph7->GetXaxis()->SetLabelFont(42);
    Graph_Graph7->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph7->GetXaxis()->SetLabelSize(0.05);
@@ -381,7 +381,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph8 = new TH1F("Graph_Graph8","Graph",100,41.4,42.6);
    Graph_Graph8->SetMinimum(0.0036);
@@ -391,7 +391,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph8->SetLineStyle(0);
    Graph_Graph8->SetLineWidth(2);
    Graph_Graph8->SetMarkerStyle(20);
-   Graph_Graph8->SetMarkerSize(1.3);
+   Graph_Graph8->SetMarkerSize(1.8);
    Graph_Graph8->GetXaxis()->SetLabelFont(42);
    Graph_Graph8->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph8->GetXaxis()->SetLabelSize(0.05);
@@ -427,7 +427,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph9 = new TH1F("Graph_Graph9","Graph",100,49.4,50.6);
    Graph_Graph9->SetMinimum(0.0036);
@@ -437,7 +437,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph9->SetLineStyle(0);
    Graph_Graph9->SetLineWidth(2);
    Graph_Graph9->SetMarkerStyle(20);
-   Graph_Graph9->SetMarkerSize(1.3);
+   Graph_Graph9->SetMarkerSize(1.8);
    Graph_Graph9->GetXaxis()->SetLabelFont(42);
    Graph_Graph9->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph9->GetXaxis()->SetLabelSize(0.05);
@@ -473,7 +473,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph10 = new TH1F("Graph_Graph10","Graph",100,60.9,62.1);
    Graph_Graph10->SetMinimum(0.0036);
@@ -483,7 +483,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph10->SetLineStyle(0);
    Graph_Graph10->SetLineWidth(2);
    Graph_Graph10->SetMarkerStyle(20);
-   Graph_Graph10->SetMarkerSize(1.3);
+   Graph_Graph10->SetMarkerSize(1.8);
    Graph_Graph10->GetXaxis()->SetLabelFont(42);
    Graph_Graph10->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph10->GetXaxis()->SetLabelSize(0.05);
@@ -519,7 +519,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph11 = new TH1F("Graph_Graph11","Graph",100,69.9,71.1);
    Graph_Graph11->SetMinimum(0.0036);
@@ -529,7 +529,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph11->SetLineStyle(0);
    Graph_Graph11->SetLineWidth(2);
    Graph_Graph11->SetMarkerStyle(20);
-   Graph_Graph11->SetMarkerSize(1.3);
+   Graph_Graph11->SetMarkerSize(1.8);
    Graph_Graph11->GetXaxis()->SetLabelFont(42);
    Graph_Graph11->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph11->GetXaxis()->SetLabelSize(0.05);
@@ -565,7 +565,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph12 = new TH1F("Graph_Graph12","Graph",100,78.9,80.1);
    Graph_Graph12->SetMinimum(0.0036);
@@ -575,7 +575,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph12->SetLineStyle(0);
    Graph_Graph12->SetLineWidth(2);
    Graph_Graph12->SetMarkerStyle(20);
-   Graph_Graph12->SetMarkerSize(1.3);
+   Graph_Graph12->SetMarkerSize(1.8);
    Graph_Graph12->GetXaxis()->SetLabelFont(42);
    Graph_Graph12->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph12->GetXaxis()->SetLabelSize(0.05);
@@ -611,7 +611,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph13 = new TH1F("Graph_Graph13","Graph",100,86.9,88.1);
    Graph_Graph13->SetMinimum(0.0036);
@@ -621,7 +621,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph13->SetLineStyle(0);
    Graph_Graph13->SetLineWidth(2);
    Graph_Graph13->SetMarkerStyle(20);
-   Graph_Graph13->SetMarkerSize(1.3);
+   Graph_Graph13->SetMarkerSize(1.8);
    Graph_Graph13->GetXaxis()->SetLabelFont(42);
    Graph_Graph13->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph13->GetXaxis()->SetLabelSize(0.05);
@@ -657,7 +657,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph14 = new TH1F("Graph_Graph14","Graph",100,96.9,98.1);
    Graph_Graph14->SetMinimum(0.0036);
@@ -667,7 +667,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph14->SetLineStyle(0);
    Graph_Graph14->SetLineWidth(2);
    Graph_Graph14->SetMarkerStyle(20);
-   Graph_Graph14->SetMarkerSize(1.3);
+   Graph_Graph14->SetMarkerSize(1.8);
    Graph_Graph14->GetXaxis()->SetLabelFont(42);
    Graph_Graph14->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph14->GetXaxis()->SetLabelSize(0.05);
@@ -703,7 +703,7 @@ void HLTMuonsRes_vs_genlxy()
    graph->SetLineColor(ci);
    graph->SetLineStyle(9);
    graph->SetMarkerStyle(20);
-   graph->SetMarkerSize(1.3);
+   graph->SetMarkerSize(1.8);
    
    TH1F *Graph_Graph15 = new TH1F("Graph_Graph15","Graph",100,106.9,108.1);
    Graph_Graph15->SetMinimum(0.0036);
@@ -713,7 +713,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_Graph15->SetLineStyle(0);
    Graph_Graph15->SetLineWidth(2);
    Graph_Graph15->SetMarkerStyle(20);
-   Graph_Graph15->SetMarkerSize(1.3);
+   Graph_Graph15->SetMarkerSize(1.8);
    Graph_Graph15->GetXaxis()->SetLabelFont(42);
    Graph_Graph15->GetXaxis()->SetLabelOffset(0.007);
    Graph_Graph15->GetXaxis()->SetLabelSize(0.05);
@@ -798,7 +798,7 @@ void HLTMuonsRes_vs_genlxy()
    ci = TColor::GetColor("#0000ff");
    gre->SetMarkerColor(ci);
    gre->SetMarkerStyle(20);
-   gre->SetMarkerSize(1.3);
+   gre->SetMarkerSize(1.8);
    
    TH1F *Graph_L2ptres1001 = new TH1F("Graph_L2ptres1001","Graph",100,0,440);
    Graph_L2ptres1001->SetMinimum(0.2186701);
@@ -808,7 +808,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_L2ptres1001->SetLineStyle(0);
    Graph_L2ptres1001->SetLineWidth(2);
    Graph_L2ptres1001->SetMarkerStyle(20);
-   Graph_L2ptres1001->SetMarkerSize(1.3);
+   Graph_L2ptres1001->SetMarkerSize(1.8);
    Graph_L2ptres1001->GetXaxis()->SetLabelFont(42);
    Graph_L2ptres1001->GetXaxis()->SetLabelOffset(0.007);
    Graph_L2ptres1001->GetXaxis()->SetLabelSize(0.05);
@@ -878,7 +878,7 @@ void HLTMuonsRes_vs_genlxy()
    ci = TColor::GetColor("#ff0000");
    gre->SetMarkerColor(ci);
    gre->SetMarkerStyle(21);
-   gre->SetMarkerSize(1.3);
+   gre->SetMarkerSize(1.8);
    
    TH1F *Graph_L3ptres1002 = new TH1F("Graph_L3ptres1002","Graph",100,0,440);
    Graph_L3ptres1002->SetMinimum(6.357229e-05);
@@ -888,7 +888,7 @@ void HLTMuonsRes_vs_genlxy()
    Graph_L3ptres1002->SetLineStyle(0);
    Graph_L3ptres1002->SetLineWidth(2);
    Graph_L3ptres1002->SetMarkerStyle(20);
-   Graph_L3ptres1002->SetMarkerSize(1.3);
+   Graph_L3ptres1002->SetMarkerSize(1.8);
    Graph_L3ptres1002->GetXaxis()->SetLabelFont(42);
    Graph_L3ptres1002->GetXaxis()->SetLabelOffset(0.007);
    Graph_L3ptres1002->GetXaxis()->SetLabelSize(0.05);
@@ -945,7 +945,7 @@ tex->SetNDC();
    ci = TColor::GetColor("#0000ff");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(20);
-   entry->SetMarkerSize(1.3);
+   entry->SetMarkerSize(1.8);
    entry->SetTextFont(42);
    entry=leg->AddEntry("L3ptres","L3 muons","pel");
 
@@ -956,7 +956,7 @@ tex->SetNDC();
    ci = TColor::GetColor("#ff0000");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(1.3);
+   entry->SetMarkerSize(1.8);
    entry->SetTextFont(42);
    leg->Draw();
    
@@ -968,7 +968,7 @@ tex->SetNDC();
    Graph_copy->SetLineStyle(0);
    Graph_copy->SetLineWidth(2);
    Graph_copy->SetMarkerStyle(20);
-   Graph_copy->SetMarkerSize(1.3);
+   Graph_copy->SetMarkerSize(1.8);
    Graph_copy->GetXaxis()->SetTitle("L_{xy}^{gen} [cm]");
    Graph_copy->GetXaxis()->SetRange(1,91);
    Graph_copy->GetXaxis()->SetLabelFont(42);
@@ -1002,4 +1002,6 @@ tex->SetNDC();
    c->Modified();
    c->cd();
    c->SetSelected(c);
+
+   c->SaveAs("HLTMuonsRes_vs_genlxy.pdf");
 }

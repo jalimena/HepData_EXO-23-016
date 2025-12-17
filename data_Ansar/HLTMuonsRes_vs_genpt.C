@@ -84,7 +84,7 @@ void HLTMuonsRes_vs_genpt()
    ci = TColor::GetColor("#0000ff");
    gre->SetMarkerColor(ci);
    gre->SetMarkerStyle(20);
-   gre->SetMarkerSize(1.3);
+   gre->SetMarkerSize(1.8);
    
    TH1F *Graph_L2ptres1001 = new TH1F("Graph_L2ptres1001","Graph",100,0,274);
    Graph_L2ptres1001->SetMinimum(0.004);
@@ -94,7 +94,7 @@ void HLTMuonsRes_vs_genpt()
    Graph_L2ptres1001->SetLineStyle(0);
    Graph_L2ptres1001->SetLineWidth(2);
    Graph_L2ptres1001->SetMarkerStyle(20);
-   Graph_L2ptres1001->SetMarkerSize(1.3);
+   Graph_L2ptres1001->SetMarkerSize(1.8);
    Graph_L2ptres1001->GetXaxis()->SetTitle("p_{T}^{gen} [GeV]");
    Graph_L2ptres1001->GetXaxis()->SetRange(1,92);
    Graph_L2ptres1001->GetXaxis()->SetLabelFont(42);
@@ -159,7 +159,7 @@ void HLTMuonsRes_vs_genpt()
    ci = TColor::GetColor("#ff0000");
    gre->SetMarkerColor(ci);
    gre->SetMarkerStyle(21);
-   gre->SetMarkerSize(1.3);
+   gre->SetMarkerSize(1.8);
    
    TH1F *Graph_L3ptres1002 = new TH1F("Graph_L3ptres1002","Graph",100,0,274);
    Graph_L3ptres1002->SetMinimum(0.01362277);
@@ -169,7 +169,7 @@ void HLTMuonsRes_vs_genpt()
    Graph_L3ptres1002->SetLineStyle(0);
    Graph_L3ptres1002->SetLineWidth(2);
    Graph_L3ptres1002->SetMarkerStyle(20);
-   Graph_L3ptres1002->SetMarkerSize(1.3);
+   Graph_L3ptres1002->SetMarkerSize(1.8);
    Graph_L3ptres1002->GetXaxis()->SetLabelFont(42);
    Graph_L3ptres1002->GetXaxis()->SetLabelOffset(0.007);
    Graph_L3ptres1002->GetXaxis()->SetLabelSize(0.05);
@@ -226,7 +226,7 @@ tex->SetNDC();
    ci = TColor::GetColor("#0000ff");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(20);
-   entry->SetMarkerSize(1.3);
+   entry->SetMarkerSize(1.8);
    entry->SetTextFont(42);
    entry=leg->AddEntry("L3ptres","L3 muons","pel");
 
@@ -237,7 +237,7 @@ tex->SetNDC();
    ci = TColor::GetColor("#ff0000");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(1.3);
+   entry->SetMarkerSize(1.8);
    entry->SetTextFont(42);
    leg->Draw();
    
@@ -249,7 +249,7 @@ tex->SetNDC();
    L2ptres_copy__25->SetLineStyle(0);
    L2ptres_copy__25->SetLineWidth(2);
    L2ptres_copy__25->SetMarkerStyle(20);
-   L2ptres_copy__25->SetMarkerSize(1.3);
+   L2ptres_copy__25->SetMarkerSize(1.8);
    L2ptres_copy__25->GetXaxis()->SetTitle("p_{T}^{gen} [GeV]");
    L2ptres_copy__25->GetXaxis()->SetRange(1,92);
    L2ptres_copy__25->GetXaxis()->SetLabelFont(42);
@@ -283,4 +283,6 @@ tex->SetNDC();
    c->Modified();
    c->cd();
    c->SetSelected(c);
+
+   c->SaveAs("HLTMuonsRes_vs_genpt.pdf");
 }
