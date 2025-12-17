@@ -321,7 +321,8 @@ void Figure39_lower_canvas()
    entry2->SetTextFont(42);
    leg2->Draw();
 
-   TLatex *   tex = new TLatex(0.13,0.84,"#font[42]{L1T p_{T} > 10 GeV, gen p_{T} > 15 GeV}");
+   //TLatex *   tex = new TLatex(0.13,0.84,"#font[42]{L1T p_{T} > 10 GeV, gen p_{T} > 15 GeV}");
+   TLatex *   tex = new TLatex(0.42,0.83,"#font[42]{L1T p_{T} > 10 GeV, gen p_{T} > 15 GeV}");
    tex->SetNDC();
    tex->SetTextSize(0.04);
    tex->SetLineWidth(2);
@@ -336,9 +337,11 @@ void Figure39_lower_canvas()
    tex->SetTextSize(0.04);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+   //tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+      tex = new TLatex(0.13,0.83,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
    tex->SetNDC();
-   tex->SetTextSize(0.045);
+   //tex->SetTextSize(0.045);
+   tex->SetTextSize(0.048);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.75,0.92,"#font[42]{(13.6 TeV)}");

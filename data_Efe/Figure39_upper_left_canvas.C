@@ -184,9 +184,11 @@ void Figure39_upper_left_canvas()
    tex->SetTextSize(0.04);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+   //tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+      tex = new TLatex(0.13,0.83,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
    tex->SetNDC();
-   tex->SetTextSize(0.045);
+   //tex->SetTextSize(0.045);
+   tex->SetTextSize(0.048);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.75,0.92,"#font[42]{(13.6 TeV)}");

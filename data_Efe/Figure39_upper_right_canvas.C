@@ -32,10 +32,12 @@ void Figure39_upper_right_canvas()
 
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    grae->SetLineColor(ci);
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    grae->SetMarkerColor(ci);
    grae->SetMarkerStyle(20);
    //grae->SetMarkerSize(2.5);
@@ -103,10 +105,12 @@ void Figure39_upper_right_canvas()
    grae->SetName("divide_h_dxy_trg_OMTF_by_h_dxy_OMTF");
    grae->SetTitle("");
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    grae->SetLineColor(ci);
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    grae->SetMarkerColor(ci);
    grae->SetMarkerStyle(24);
    //grae->SetMarkerSize(2.5);
@@ -149,12 +153,14 @@ void Figure39_upper_right_canvas()
    leg->SetFillStyle(0);
    TLegendEntry *entry=leg->AddEntry("divide_h_dxy_trg_OMTF_by_h_dxy_OMTF","Beam axis-constrained","pe");
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    entry->SetLineColor(ci);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(24);
    //entry->SetMarkerSize(2.5);
@@ -162,12 +168,14 @@ void Figure39_upper_right_canvas()
    entry->SetTextFont(42);
    entry=leg->AddEntry("divide_h_dxy_NN_trg_OMTF_by_h_dxy_OMTF","Beam axis-unconstrained","pe");
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    entry->SetLineColor(ci);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
 
-   ci = TColor::GetColor("#f89c20");
+   //ci = TColor::GetColor("#f89c20");
+   ci = TColor::GetColor("#f35e07");
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(20);
    //entry->SetMarkerSize(2.5);
@@ -184,9 +192,11 @@ void Figure39_upper_right_canvas()
    tex->SetTextSize(0.04);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+   //tex = new TLatex(0.1,0.92,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
+   tex = new TLatex(0.13,0.83,"#bf{ #font[61]{CMS}} #font[52]{Simulation}");
    tex->SetNDC();
-   tex->SetTextSize(0.045);
+   //tex->SetTextSize(0.045);
+   tex->SetTextSize(0.048);
    tex->SetLineWidth(2);
    tex->Draw();
       tex = new TLatex(0.75,0.92,"#font[42]{(13.6 TeV)}");
