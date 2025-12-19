@@ -50,12 +50,20 @@ sys.path.append('.')
 from readTest import collect_hists_from_canvas
 
 
-def makeVariable(plot, label, is_independent, is_binned, is_symmetric, units, CME=13.6, uncertainty=True):
+def makeVariable(plot, label, is_independent, is_binned, is_symmetric, units, CME=13.6, uncertainty=True, maxNeeded=False, maxX=0.):
     var = Variable(label, is_independent=is_independent, is_binned=is_binned, units=units)
-    var.values = plot["y"]
+    if maxNeeded:
+        if ["value"] in plot["x"] < maxX:
+            var.values = plot["y"]
+    else:
+        var.values = plot["y"]
     if uncertainty:
         unc = Uncertainty("", is_symmetric=is_symmetric)
-        unc.values = plot["dy"]
+        if maxNeeded:
+            if ["value"] in plot["x"] < maxX:
+                unc.values = plot["dy"]
+        else:
+            unc.values = plot["dy"]
         var.add_uncertainty(unc)
     var.add_qualifier("SQRT(S)", CME, "TeV")
     #var.add_qualifier("HLT rate","2016")                                                                                                                                          
@@ -73,7 +81,7 @@ def check_imagemagick_available():
 
 def makeHT430EffTable():
     table = Table("16.a. Displaced jet HLT $H_{T}$ > 430 GeV efficiency")
-    table.description = "the HLT efficiency for a given event passing the main displaced-jet trigger to satisfy HLT calorimeter $H_{\mathrm{T}}>430~\mathrm{GeV}$  as a function of the offline calorimeter $H_{\mathrm{T}}$. The measurements are performed in data collected in 2022 (green circles), in 2023 before an update of the HCAL gain values and energy response corrections (black squares), and in 2023 after the update (blue triangles)."
+    table.description = "The HLT efficiency for a given event passing the main displaced-jet trigger to satisfy HLT calorimeter $H_{\mathrm{T}}>430~\mathrm{GeV}$ as a function of the offline calorimeter $H_{\mathrm{T}}$. For this trigger, the minimum calorimeter $H_{\mathrm{T}} threshold was 430 GeV in 2022. The measurements are performed in data collected in 2022 (green circles), in 2023 before an update of the HCAL gain values and energy response corrections (black squares), and in 2023 after the update (blue triangles)."
     image = "data_Jingyu/DisplacedJets_HT_performance_years.pdf"
     reader = RootFileReader("data_Jingyu/DisplacedJets_HT_performance_years.root")
     HT430_22 = "eff22_HT430"
@@ -98,7 +106,7 @@ def makeHT430EffTable():
 
 def makeHT390EffTable():
     table = Table("16.b. Displaced jet HLT $H_{T}$ > 390 GeV efficiency")
-    table.description = "the HLT efficiency for a given event passing the main displaced-jet trigger to satisfy HLT calorimeter $H_{\mathrm{T}}>390~\mathrm{GeV}$  as a function of the offline calorimeter $H_{\mathrm{T}}$. The measurements are performed in data collected in 2022 (green circles), in 2023 before an update of the HCAL gain values and energy response corrections (black squares), and in 2023 after the update (blue triangles)."
+    table.description = "The HLT efficiency for a given event passing the main displaced-jet trigger to satisfy HLT calorimeter $H_{\mathrm{T}}>390~\mathrm{GeV}$ as a function of the offline calorimeter $H_{\mathrm{T}}$. For this trigger, the minimum calorimeter $H_{\mathrm{T}} threshold was 390 GeV in 2023 and later. The measurements are performed in data collected in 2022 (green circles), in 2023 before an update of the HCAL gain values and energy response corrections (black squares), and in 2023 after the update (blue triangles)."
     image = "data_Jingyu/DisplacedJets_HT_performance_years_HT390.pdf"
     reader = RootFileReader("data_Jingyu/DisplacedJets_HT_performance_years_HT390.root")
     HT390_23 = "eff23_HT390"
@@ -119,7 +127,8 @@ def makeHT390EffTable():
 
 def makePt40EffTable():
     table = Table("17.a. Displaced jet HLT $p_{T}$ > 40 GeV efficiency")
-    table.description = "Efficiency of an offline calorimeter jet to pass the online $p_{\mathrm{T}}$ requirement in displaced-jet triggers, which require $p_{\mathrm{T}}>40\mathrm{GeV}$, in data collected in 2022 (green squares), in 2023 before an update of the HCAL gains and energy response corrections (black filled circles), and in 2023 after the update (blue open circles). The efficiencies measured with QCD multijet simulation are also shown, for 2022 (red triangles) and 2023 (purple triangles) conditions."
+    table.description = "The HLT efficiency of the main displaced-jet trigger: Efficiency of an offline calorimeter jet to pass the online $\\mathrm{p_T}$ requirement in the displaced-jet triggers. In the this plot, the HLT calorimeter jets must have $\\mathrm{p_T}>40$ GeV. The efficiency is shown for data collected in 2022 (green squares), in 2023 before an update of the HCAL gains and energy response corrections (black filled circles), and in 2023 after the update (blue open circles). The efficiencies measured with QCD multijet simulations are also shown, for 2022 (red triangles) and 2023 (purple triangles) conditions. These measurements are performed using events collected with a prescaled trigger that requires $\\mathrm{H_T} >425$ GeV at the HLT. An offline $\\mathrm{H_T} >450$ GeV selection is also applied to ensure the prescaled trigger reaches its plateau. The efficiency is $> 96\%$ when the offline jet has $\\mathrm{p_T}>40$ GeV. The efficiency threshold is lower for the later 2023 data following updates to the HCAL energy corrections and readout gains, although the $\\mathrm{p_T}$ value at the start of the plateau is unchanged."
+    
     image = "data_Jingyu/DisplacedJets_Run3_jetpt40_Eff_years.pdf"
     reader =RootFileReader("data_Jingyu/DisplacedJets_Run3_jetpt40_Eff_years.root")
     PT40_QCD22 = "eff_Pt40_QCD22"
@@ -148,17 +157,22 @@ def makePt40EffTable():
     
 def makePtrkEffTable():
     table = Table("17.b. Displaced jet HLT tracking requirement efficiency" )
-    table.description = "Efficiency of an offline calorimeter jet to have at most one HLT prompt track for 2022 conditions, as a function of the number of offline prompt tracks, in simulated $\\mathrm{H} \\to \\mathrm{SS}$, $\mathrm{S} \\to \mathrm{b\overline{b}}$ signal events where $m_{\mathrm{H}} = 125~\mathrm{GeV}$ and $m_{\mathrm{S}}=40~\mathrm{GeV}$. Two proper decay lengths of the $\mathrm{S}$ particle are shown: $c\\tau=10~\mathrm{mm}$ (green circles) and $c\\tau = 100~\mathrm{mm}$ (blue squares)."
+    table.description = "The HLT efficiency of the main displaced-jet trigger: Efficiency of an offline calorimeter jet to have at most one HLT prompt track. The efficiency in this plot is shown for 2022 conditions, as a function of the number of offline prompt tracks, in simulated $\\mathrm{H} \\to \\mathrm{SS}$, $\mathrm{S} \\to \mathrm{b\overline{b}}$ signal events where $m_{H}=125$ GeV and $m_{S}=40$ GeV. Two proper decay lengths of the S particle are shown: $c\\tau=10$ mm (green circles) and $c\\tau=100$ mm (blue squares). For jets in signal events, when the number of offline prompt tracks is $<4$, the tagging efficiency is larger than 70%."
     image = "data_Jingyu/DisplacedJet_Trigger_Run3_signal_prompttrack_veto_eff.pdf"
     reader = RootFileReader("data_Jingyu/DisplacedJet_Trigger_Run3_signal_prompttrack_veto_eff.root")
     table.location = "Data from Fig. 17 (right)"
     table.add_image(image)
     plot10mm = reader.read_teff("eff_10mm")
     plot100mm = reader.read_teff("eff_100mm")
-    
+
+    #maximumX=15
     xAxisVar = Variable("Number of offline prompt tracks",is_independent=True, is_binned=False, units="")
+    #if ["value"] in plot10mm["x"] < maximumX:
     xAxisVar.values = plot10mm["x"]
+    print(xAxisVar.values)
     table.add_variable(xAxisVar)
+    #table.add_variable(makeVariable(plot=plot10mm, label="$c\\tau_{0} = 10~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxNeeded=True, maxX=maximumX))
+    #table.add_variable(makeVariable(plot=plot100mm, label="$c\\tau_{0} = 100~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxNeeded=True, maxX=maximumX))
     table.add_variable(makeVariable(plot=plot10mm, label="$c\\tau_{0} = 10~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
     table.add_variable(makeVariable(plot=plot100mm, label="$c\\tau_{0} = 100~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
     
@@ -168,7 +182,7 @@ def makePtrkEffTable():
     
 def makeGenEffTable():
     table = Table("18. Displaced jet HLT tagging efficiency")
-    table.description = "The per-parton (quark or lepton) HLT displaced-jet tagging efficiency as a function of the generator-level $L_{xy}$ of the parton is shown for displaced b quarks (blue circles), d quarks (purple triangels), and $\\tau$ leptons (green squares) with $p_{\mathrm{T}}>40~\mathrm{GeV}$ and $|\\eta|<2.0$."
+    table.description = "The HLT efficiency of the main displaced-jet trigger for 2022 conditions, for $\\mathrm{H} \\to \\mathrm{S}\\mathrm{S}$ signal events where $m_{H}=125$ GeV and $m_{S}=40$ GeV. The per-parton (quark or lepton) HLT displaced-jet tagging efficiency as a function of the generator-level $L_{xy}$ of the parton is shown for displaced b quarks (blue circles), d quarks (purple triangels), and $\\tau$ leptons (green squares) with $p_{\mathrm{T}}>40~\mathrm{GeV}$ and $|\\eta|<2.0$. Events are required to satisfy the HLT $H_{T} > 430$ GeV requirement."
     image = "data_Jingyu/DisplacedJets_GenEff_cm.pdf"
     reader = RootFileReader("data_Jingyu/DisplacedJets_GenEff_cm.root")
     table.location = "Data from Fig. 18"
@@ -700,37 +714,37 @@ def get_figure_metadata(figure_name):
     Get metadata for each figure based on the paper content
     """
     metadata = {
-        "Figure41a": {
-            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of min($p_T$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. The efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
-            "location": "Data from Figure 41 (upper left)."
-        },
-        "Figure41b": {
-            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of max($p_T$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. Efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
-            "location": "Data from Figure 41 (upper right)."
-        },
-        "Figure41c": {
-            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. Efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
-            "location": "Data from Figure 41 (lower)."
-        },
         "Figure42a": {
-            "description": "The HLT efficiency, defined as the fraction of events recorded by the Run 2 (2018) triggers that also satisfied the requirements of the Run 3 (2022, L3) triggers, as a function of offline-reconstructed min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ. The data represent efficiencies during the 2022 and 2023 data-taking periods. For dimuons with offline min($d_0$) > 0.012 cm, the combined efficiency of the L3 muon reconstruction and the online min($d_0$) requirement is larger than 90% in all data-taking periods.",
+            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of min($p_T$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. The efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
             "location": "Data from Figure 42 (upper left)."
         },
         "Figure42b": {
-            "description": "The HLT efficiency of the Run 3 (2022, L3) triggers and the Run 3 (2022, L3 dTks) triggers for J/ψ → μμ events in the 2022 and 2023 data set as a function of offline-reconstructed min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ.",
+            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of max($p_T$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. Efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
             "location": "Data from Figure 42 (upper right)."
         },
         "Figure42c": {
-            "description": "Invariant mass distribution for TMS-TMS dimuons in events recorded by the Run 2 (2018) triggers in the combined 2022 and 2023 data set, and in the subset of events also selected by the Run 3 (2022, L3) trigger and Run 3 (2022, L3 dTks) trigger, illustrating the prompt muon rejection of the L3 triggers.",
+            "description": "The L1T+HLT efficiency of the Run 3 (2022, L3) triggers in 2022 data (black), 2023 data (red), and simulation (green) as a function of min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ events. Efficiency in data is the fraction of J/ψ → μμ events recorded by the triggers based on the information from jets and $p_T^{miss}$ that also satisfy the requirements of the Run 3 (2022, L3) triggers. It is compared to the efficiency of the Run 3 (2022, L3) triggers in a combination of simulated samples of J/ψ → μμ events produced in various b hadron decays. The lower panels show the ratio of the data to simulated events.",
             "location": "Data from Figure 42 (lower)."
         },
         "Figure43a": {
-            "description": "The HLT efficiency, defined as the fraction of events recorded by the Run 2 (2018) triggers that also satisfied the requirements of the Run 3 (2022, L2) triggers, as a function of offline-reconstructed min($d_0$) of the two muons forming STA-STA dimuons in events enriched in cosmic ray muons. The data represent efficiencies during the 2022 and 2023 data-taking periods. For displaced muons, the efficiency of the online min($d_0$) requirement is larger than 95% in all data-taking periods.",
-            "location": "Data from Figure 43 (left)."
+            "description": "The HLT efficiency, defined as the fraction of events recorded by the Run 2 (2018) triggers that also satisfied the requirements of the Run 3 (2022, L3) triggers, as a function of offline-reconstructed min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ. The data represent efficiencies during the 2022 and 2023 data-taking periods. For dimuons with offline min($d_0$) > 0.012 cm, the combined efficiency of the L3 muon reconstruction and the online min($d_0$) requirement is larger than 90% in all data-taking periods.",
+            "location": "Data from Figure 43 (upper left)."
         },
         "Figure43b": {
+            "description": "The HLT efficiency of the Run 3 (2022, L3) triggers and the Run 3 (2022, L3 dTks) triggers for J/ψ → μμ events in the 2022 and 2023 data set as a function of offline-reconstructed min($d_0$) of the two muons forming TMS-TMS dimuons in events enriched in J/ψ → μμ.",
+            "location": "Data from Figure 43 (upper right)."
+        },
+        "Figure43c": {
+            "description": "Invariant mass distribution for TMS-TMS dimuons in events recorded by the Run 2 (2018) triggers in the combined 2022 and 2023 data set, and in the subset of events also selected by the Run 3 (2022, L3) trigger and Run 3 (2022, L3 dTks) trigger, illustrating the prompt muon rejection of the L3 triggers.",
+            "location": "Data from Figure 43 (lower)."
+        },
+        "Figure41a": {
+            "description": "The HLT efficiency, defined as the fraction of events recorded by the Run 2 (2018) triggers that also satisfied the requirements of the Run 3 (2022, L2) triggers, as a function of offline-reconstructed min($d_0$) of the two muons forming STA-STA dimuons in events enriched in cosmic ray muons. The data represent efficiencies during the 2022 and 2023 data-taking periods. For displaced muons, the efficiency of the online min($d_0$) requirement is larger than 95% in all data-taking periods.",
+            "location": "Data from Figure 41 (left)."
+        },
+        "Figure41b": {
             "description": "The invariant mass distribution for TMS-TMS dimuons in events recorded by the Run 2 (2018) triggers in the combined 2022 and 2023 data set, and in the subset of events also selected by the Run 3 (2022, L2) triggers, illustrating the prompt muon rejection of the Run 3 (2022, L2) triggers.",
-            "location": "Data from Figure 43 (right)."
+            "location": "Data from Figure 41 (right)."
         },
         "Figure40": {
             "description": "The L1T+HLT efficiencies of the various displaced-dimuon triggers and their logical OR as a function of $c\\tau$ for the HAHM signal events with $m_H = 125\ GeV$ and $m_{Z_D} = 20\ GeV$, for 2022 conditions. The efficiency is defined as the fraction of simulated events that satisfy the detector acceptance and the requirements of the following sets of triggers: the Run 2 (2018) triggers (dashed black); the Run 3 (2022, L3) triggers (blue); the Run 3 (2022, L2) triggers (red); and the logical OR of all these triggers (Run 3 (2022), solid black). The lower panel shows the ratio of the overall Run 3 (2022) efficiency to the Run 2 (2018) efficiency.",
@@ -885,18 +899,14 @@ def get_x_axis_info(x_axis_title, figure_name):
     title = x_axis_title.strip()
     
     # Handle specific figure naming
-    if figure_name == "Figure41a":
+    if figure_name == "Figure42a":
         return "min($p_T$)", "GeV"
-    elif figure_name == "Figure41b":
+    elif figure_name == "Figure42b":
         return "max($p_T$)", "GeV"
-    elif figure_name == "Figure41c":
+    elif figure_name in ["Figure41a", "Figure42c", "Figure43a", "Figure43b"]:
         return "min($d_0$)", "cm"
-    elif figure_name in ["Figure42a", "Figure42b"]:
-        return "min($d_0$)", "cm"
-    elif figure_name in ["Figure42c", "Figure43b"]:
+    elif figure_name in ["Figure41b", "Figure43c"]:
         return "$m_{\\mu\\mu}$", "GeV"
-    elif figure_name == "Figure43a":
-        return "min($d_0$)", "cm"
     else:
         # Generic handling - extract units from title
         if "[GeV]" in title:
@@ -913,20 +923,19 @@ def create_variable_name(hist_name, figure_name):
     Create descriptive variable names based on histogram name and figure
     """
     # Special handling for specific figures with event counts instead of efficiencies
-    if figure_name == "Figure42c":
+    if figure_name == "Figure43c":
         if "MuonRun3HLTRun2" in hist_name:
             return "Run 2 (2018) observed events"
         elif "DisplacedL3" in hist_name and "dTks" not in hist_name:
             return "Run 3 (2022, L3) observed events"
         elif "dTks" in hist_name:
             return "Run 3 (2022, L3 dTks) observed events"
-    elif figure_name == "Figure43b":
+    elif figure_name == "Figure41b":
         if "MuonRun3HLTRun2" in hist_name:
             return "Run 2 (2018) observed events"
         elif "L3VetoOR" in hist_name:
             return "Run 3 (2022, L2) observed events"
-    elif figure_name == "Figure42a":
-        # Fix specific naming for Figure42a
+    elif figure_name == "Figure43a":
         if "HData2022" in hist_name:
             return "Run 3 (2022, L3) trigger efficiency - 2022 data"
         elif "2023" in hist_name:
@@ -2081,7 +2090,7 @@ def main():
     print(f"\nProcessing complete! Generated HEPData submission with {successful_figures} figures.")
     print("\nSubmission includes:")
     print("  - Trigger efficiency measurements from CMS Run 3 (2022-2024)")
-    print("  - Figures 40, 41a-c, 42a-c, and 43a-b from EXO-23-016")
+    print("  - Figures 40, 41a-b, 42a-c, and 43a-c from EXO-23-016")
     print("  - Complete metadata and figure descriptions from the paper")
     print("  - Statistical uncertainties for all measurements")
     print("  - Proper decay length (cτ) dependence studies for displaced dimuons")
