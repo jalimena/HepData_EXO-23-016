@@ -387,8 +387,8 @@ def makeFig63leftTable(histograms):
                     )
     table.description = "The L1T acceptance for the CSC MDS trigger as functions of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions."
     table.name = "66.a. 2D L1T acceptance for CSC MDS"
-    table.add_image("data_Martin/MDS_CSC_2D_L1acc_v_rZ.pdf")
     table.location = "Data from Fig. 66 left"
+    table.add_image("data_Martin/MDS_CSC_2D_L1acc_v_rZ.pdf")
     
     return table
 
@@ -399,10 +399,11 @@ def makeFig63rightTable(histograms):
                         denom_name = "denom",
                         dependent_name= 'L1T+HLT Acceptance'
                     )
-    table.description = "The L1T+HLT acceptance for the CSC MDS trigger as functions of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions.",
-    table.name ="66.b. 2D L1T+HLT acceptance for CSC MDS",
-    table.location = "Data from Fig. 66 right",
+    table.description = "The L1T+HLT acceptance for the CSC MDS trigger as functions of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions."
+    table.name ="66.b. 2D L1T+HLT acceptance for CSC MDS"
+    table.location = "Data from Fig. 66 right"
     table.add_image("data_Martin/MDS_CSC_2D_HLTacc_v_rZ.pdf")
+    
     return table
 
 
@@ -418,10 +419,11 @@ def makeFig64table(histograms):
                         denom_name = "denom_dt_L1MET",
                         dependent_name= 'HLT Acceptance'
                     )
-    table.description = "The HLT acceptance for the DT MDS trigger as a function of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions. The L1T acceptance that is based on the $p_T^{miss}$ trigger is not included.",
-    table.name ="67. 2D HLT acceptance for DT MDS",
-    table.location = "Data from Fig. 67",
+    table.description = "The HLT acceptance for the DT MDS trigger as a function of the LLP decay position, for $H \\to S S \\to b\\bar{{b}}\\,b\\bar{{b}}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=1$ m, for 2023 conditions. The L1T acceptance that is based on the $p_T^{miss}$ trigger is not included."
+    table.name ="67. 2D HLT acceptance for DT MDS"
+    table.location = "Data from Fig. 67"
     table.add_image("data_Martin/MDS_DT_2D_HLTacc_v_rZ.pdf")
+    
     return table
 
 
