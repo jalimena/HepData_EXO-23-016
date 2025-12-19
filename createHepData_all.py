@@ -50,23 +50,21 @@ sys.path.append('.')
 from readTest import collect_hists_from_canvas
 
 
-def makeVariable(plot, label, is_independent, is_binned, is_symmetric, units, CME=13.6, uncertainty=True, maxNeeded=False, maxX=0.):
+def makeVariable(plot, label, is_independent, is_binned, is_symmetric, units, CME=13.6, uncertainty=True, maxIndex=None):
     var = Variable(label, is_independent=is_independent, is_binned=is_binned, units=units)
-    if maxNeeded:
-        if ["value"] in plot["x"] < maxX:
-            var.values = plot["y"]
+    if maxIndex:
+        var.values = plot["y"][:maxIndex]
     else:
         var.values = plot["y"]
     if uncertainty:
         unc = Uncertainty("", is_symmetric=is_symmetric)
-        if maxNeeded:
-            if ["value"] in plot["x"] < maxX:
-                unc.values = plot["dy"]
+        if maxIndex:
+            unc.values = plot["dy"][:maxIndex]
         else:
             unc.values = plot["dy"]
         var.add_uncertainty(unc)
     var.add_qualifier("SQRT(S)", CME, "TeV")
-    #var.add_qualifier("HLT rate","2016")                                                                                                                                          
+    
     return var
 
 def check_imagemagick_available():
@@ -93,13 +91,22 @@ def makeHT430EffTable():
     plot_HT430_22 = reader.read_teff(HT430_22)
     plot_HT430_23 = reader.read_teff(HT430_23)
     plot_HT430_23late = reader.read_teff(HT430_23late)
-    
+
+    maximumX=1600
+    maxIndex=None
+    for i, value in enumerate(plot_HT430_22["x"]):
+        if value >= maximumX:
+            maxIndex = i
+            break
+    if maxIndex is None:
+        print("Error with maxIndex")        
+
     xAxisVar = Variable("$H_{\mathrm{T}}$", is_independent=True, is_binned=False, units="$\mathrm{GeV}$")
-    xAxisVar.values =plot_HT430_22["x"]
+    xAxisVar.values =plot_HT430_22["x"][:maxIndex]
     table.add_variable(xAxisVar)
-    table.add_variable(makeVariable(plot=plot_HT430_22, label="Data 2022", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_HT430_23, label="Data 2023 before HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_HT430_23late, label="Data 2023 after HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_HT430_22, label="Data 2022", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_HT430_23, label="Data 2023 before HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_HT430_23late, label="Data 2023 after HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
     
     return table
 
@@ -116,12 +123,21 @@ def makeHT390EffTable():
     
     plot_HT390_23 = reader.read_teff(HT390_23)
     plot_HT390_23late = reader.read_teff(HT390_23late)
-    
+
+    maximumX=1600
+    maxIndex=None
+    for i, value in enumerate(plot_HT390_23["x"]):
+        if value >= maximumX:
+            maxIndex = i
+            break
+    if maxIndex is None:
+        print("Error with maxIndex")        
+
     xAxisVar = Variable("$H_{\mathrm{T}}$", is_independent=True, is_binned=False, units="$\mathrm{GeV}$")
-    xAxisVar.values =plot_HT390_23["x"]
+    xAxisVar.values =plot_HT390_23["x"][:maxIndex]
     table.add_variable(xAxisVar)
-    table.add_variable(makeVariable(plot=plot_HT390_23, label="Data 2023 before HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_HT390_23late, label="Data 2023 after HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_HT390_23, label="Data 2023 before HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units="",maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_HT390_23late, label="Data 2023 after HCAL conditions update", is_independent=False, is_binned=False, is_symmetric=False, units="",maxIndex=maxIndex))
     
     return table
 
@@ -165,16 +181,22 @@ def makePtrkEffTable():
     plot10mm = reader.read_teff("eff_10mm")
     plot100mm = reader.read_teff("eff_100mm")
 
-    #maximumX=15
+
     xAxisVar = Variable("Number of offline prompt tracks",is_independent=True, is_binned=False, units="")
-    #if ["value"] in plot10mm["x"] < maximumX:
-    xAxisVar.values = plot10mm["x"]
-    print(xAxisVar.values)
+
+    maximumX=15
+    maxIndex=None
+    for i, value in enumerate(plot10mm["x"]):
+        if value >= maximumX:
+            maxIndex = i
+            break
+    if maxIndex is None:
+        print("Error with maxIndex")
+        
+    xAxisVar.values = plot10mm["x"][:maxIndex]    
     table.add_variable(xAxisVar)
-    #table.add_variable(makeVariable(plot=plot10mm, label="$c\\tau_{0} = 10~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxNeeded=True, maxX=maximumX))
-    #table.add_variable(makeVariable(plot=plot100mm, label="$c\\tau_{0} = 100~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxNeeded=True, maxX=maximumX))
-    table.add_variable(makeVariable(plot=plot10mm, label="$c\\tau_{0} = 10~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot100mm, label="$c\\tau_{0} = 100~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot10mm, label="$c\\tau_{0} = 10~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot100mm, label="$c\\tau_{0} = 100~\mathrm{mm}$", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
     
     return table
     
@@ -281,18 +303,27 @@ def makeHcalLLPflaggedJetEffTable():
     plot_timing_8 = reader.read_teff(timing_8)
     plot_timing_10 = reader.read_teff(timing_10)
 
+    maximumX=400
+    maxIndex=None
+    for i, value in enumerate(plot_timing_m4["x"]):
+        if value >= maximumX:
+            maxIndex = i
+            break
+    if maxIndex is None:
+        print("Error with maxIndex")        
+
     xAxisVar = Variable("L1 jet ET", is_independent=True, is_binned=False, units="GeV")
-    xAxisVar.values = plot_timing_m4["x"]
+    xAxisVar.values = plot_timing_m4["x"][:maxIndex]
     table.add_variable(xAxisVar)
 
-    table.add_variable(makeVariable(plot=plot_timing_m4, label="Timing shift = -4 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_m2, label="Timing shift = -2 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_0, label="Timing shift = 0 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_2, label="Timing shift = 2 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_4, label="Timing shift = 4 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_6, label="Timing shift = 6 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_8, label="Timing shift = 8 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_timing_10, label="Timing shift = 10 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_timing_m4, label="Timing shift = -4 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_m2, label="Timing shift = -2 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_0, label="Timing shift = 0 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_2, label="Timing shift = 2 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_4, label="Timing shift = 4 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_6, label="Timing shift = 6 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_8, label="Timing shift = 8 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_timing_10, label="Timing shift = 10 ns", is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
 
     return table
 
@@ -494,15 +525,24 @@ def makeDisplacedMuonL1EffTable(xvar):
         plot_prompt = reader.read_graph(prompt)
         plot_disp = reader.read_graph(disp)
 
+    maximumX=120
+    maxIndex=None
+    for i, value in enumerate(plot_prompt["x"]):
+        if value >= maximumX:
+            maxIndex = i
+            break
+    if maxIndex is None:
+        print("Error with maxIndex")        
+
     xAxisVar = Variable("Gen.-level muon track d_{0}", is_independent=True, is_binned=False, units="cm")
-    xAxisVar.values = plot_prompt["x"]
+    xAxisVar.values = plot_prompt["x"][:maxIndex]
     table.add_variable(xAxisVar)
 
-    table.add_variable(makeVariable(plot=plot_prompt, label=label_prompt, is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_disp, label=label_disp, is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_prompt, label=label_prompt, is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+    table.add_variable(makeVariable(plot=plot_disp, label=label_disp, is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
     if xvar=="EMTF":
-        table.add_variable(makeVariable(plot=plot_prompt2, label=label_prompt2, is_independent=False, is_binned=False, is_symmetric=False, units=""))
-        table.add_variable(makeVariable(plot=plot_disp2, label=label_disp2, is_independent=False, is_binned=False, is_symmetric=False, units=""))
+        table.add_variable(makeVariable(plot=plot_prompt2, label=label_prompt2, is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
+        table.add_variable(makeVariable(plot=plot_disp2, label=label_disp2, is_independent=False, is_binned=False, is_symmetric=False, units="", maxIndex=maxIndex))
 
     return table
 
@@ -2025,20 +2065,18 @@ def main():
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2023"))
     submission.add_table(makeMuonNoBPTXRateVsNBunchesTable("2024"))
 
-    #old Figure 65
-    #new Figure 61
+    #Figure 61
     mass_points = [(1000,200), (350,80), (350,160), (125,25)]
     for mH, mX in mass_points:
         for t in makeAcceptanceTables(mH, mX, "R"):
             submission.add_table(t)
-    #old Figure 66
-    #new Figure 62
+
+    #Figure 62
     for mH, mX in mass_points:
         for t in makeAcceptanceTables(mH, mX, "Z"):
             submission.add_table(t)
 
-    #old Figures 60-64
-    #new Figures 63-67
+    #Figures 63-67
     submission.add_table(makeFig60table(histograms))
     submission.add_table(makeFig61table(histograms))
     submission.add_table(makeFig62table(histograms))
@@ -2046,12 +2084,10 @@ def main():
     submission.add_table(makeFig63rightTable(histograms))
     submission.add_table(makeFig64table(histograms))
 
-    #old Figure 70
-    #new Figure 68
+    #Figure 68
     submission.add_table(makeDisplacedTauAccTable())
 
-    #old Figure 69
-    #new Figure 70
+    #Figure 70
     submission.add_table(makeHLTMuResoTable("genpt"))
     submission.add_table(makeHLTMuResoTable("genlxy"))
     
