@@ -439,24 +439,24 @@ def makeMDStables(histograms):
     makeFig64table(histograms)
 
 # Create the submission object                                                                                                              
-submission = Submission()
-
-
-#Create output directory early                                                                                                             
-output_dir = "hepdataMartin_output"
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-
-submission.add_table(makeFig56leftTable(histograms))
-submission.add_table(makeFig56rightTable(histograms))
-submission.add_table(makeFig60table(histograms))
-submission.add_table(makeFig61table(histograms))
-submission.add_table(makeFig62table(histograms))
-submission.add_table(makeFig63leftTable(histograms))
-submission.add_table(makeFig63rightTable(histograms))
-submission.add_table(makeFig64table(histograms))
-
-submission.create_files(output_dir,remove_old=True)
+#submission = Submission()
+#
+#
+##Create output directory early                                                                                                             
+#output_dir = "hepdataMartin_output"
+#if not os.path.exists(output_dir):
+#    os.makedirs(output_dir)
+#
+#submission.add_table(makeFig56leftTable(histograms))
+#submission.add_table(makeFig56rightTable(histograms))
+#submission.add_table(makeFig60table(histograms))
+#submission.add_table(makeFig61table(histograms))
+#submission.add_table(makeFig62table(histograms))
+#submission.add_table(makeFig63leftTable(histograms))
+#submission.add_table(makeFig63rightTable(histograms))
+#submission.add_table(makeFig64table(histograms))
+#
+#submission.create_files(output_dir,remove_old=True)
 
 
 
