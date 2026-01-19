@@ -3,28 +3,28 @@
 #endif
 void Efficiency_comparison_delayedjets_Run2HTtrigger()
 {
-//=========Macro generated from canvas: FigExample_800-600_0-prelim-out/FigExample_800-600_0-prelim-out
+//=========Macro generated from canvas: FigExample/FigExample
 //=========  (Tue Dec 16 23:53:21 2025) by ROOT version 6.26/11
-   TCanvas *FigExample_800-600_0-prelim-out = new TCanvas("FigExample_800-600_0-prelim-out", "FigExample_800-600_0-prelim-out",0,0,800,600);
+   TCanvas *FigExample = new TCanvas("FigExample", "FigExample",0,0,800,600);
    gStyle->SetOptFit(1);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
-   FigExample_800-600_0-prelim-out->Range(-214.2857,-0.225,1571.429,1.65);
-   FigExample_800-600_0-prelim-out->SetFillColor(0);
-   FigExample_800-600_0-prelim-out->SetBorderMode(0);
-   FigExample_800-600_0-prelim-out->SetBorderSize(2);
-   FigExample_800-600_0-prelim-out->SetGridx();
-   FigExample_800-600_0-prelim-out->SetGridy();
-   FigExample_800-600_0-prelim-out->SetTickx(1);
-   FigExample_800-600_0-prelim-out->SetTicky(1);
-   FigExample_800-600_0-prelim-out->SetLeftMargin(0.12);
-   FigExample_800-600_0-prelim-out->SetRightMargin(0.04);
-   FigExample_800-600_0-prelim-out->SetTopMargin(0.08);
-   FigExample_800-600_0-prelim-out->SetBottomMargin(0.12);
-   FigExample_800-600_0-prelim-out->SetFrameFillStyle(0);
-   FigExample_800-600_0-prelim-out->SetFrameBorderMode(0);
-   FigExample_800-600_0-prelim-out->SetFrameFillStyle(0);
-   FigExample_800-600_0-prelim-out->SetFrameBorderMode(0);
+   FigExample->Range(-214.2857,-0.225,1571.429,1.65);
+   FigExample->SetFillColor(0);
+   FigExample->SetBorderMode(0);
+   FigExample->SetBorderSize(2);
+   FigExample->SetGridx();
+   FigExample->SetGridy();
+   FigExample->SetTickx(1);
+   FigExample->SetTicky(1);
+   FigExample->SetLeftMargin(0.12);
+   FigExample->SetRightMargin(0.04);
+   FigExample->SetTopMargin(0.08);
+   FigExample->SetBottomMargin(0.12);
+   FigExample->SetFrameFillStyle(0);
+   FigExample->SetFrameBorderMode(0);
+   FigExample->SetFrameFillStyle(0);
+   FigExample->SetFrameBorderMode(0);
    
    TH1D *hDivInc__1__1 = new TH1D("hDivInc__1__1","",50,0,1500);
    hDivInc__1__1->SetBinContent(6,0.003481894);
@@ -752,7 +752,7 @@ void Efficiency_comparison_delayedjets_Run2HTtrigger()
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
    leg->Draw();
-   TLatex *   tex = new TLatex(80,1.4,"H #rightarrow X X #rightarrow 4b  (m_{H} = 1000 GeV,  m_{X} = 450 GeV,  c#tau = 10 m)");
+   TLatex *   tex = new TLatex(80,1.4,"H #rightarrow XX #rightarrow 4b  (m_{H} = 1000 GeV,  m_{X} = 450 GeV,  c#tau = 10 m)");
    tex->SetTextAlign(12);
    tex->SetTextFont(42);
    tex->SetTextSize(0.035);
@@ -894,7 +894,8 @@ tex->SetNDC();
    hDivInc__1_copy__8->GetZaxis()->SetTitleOffset(1);
    hDivInc__1_copy__8->GetZaxis()->SetTitleFont(42);
    hDivInc__1_copy__8->Draw("sameaxis");
-   FigExample_800-600_0-prelim-out->Modified();
-   FigExample_800-600_0-prelim-out->cd();
-   FigExample_800-600_0-prelim-out->SetSelected(FigExample_800-600_0-prelim-out);
+   FigExample->Modified();
+   FigExample->cd();
+   FigExample->SetSelected(FigExample);
+   FigExample->SaveAs("Figure_027.pdf");
 }

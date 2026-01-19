@@ -3,28 +3,28 @@
 #endif
 void Signal_efficiency_HT430vsL1Tau_HtoXXto4tau()
 {
-//=========Macro generated from canvas: FigExample_800-600_0-prelim-out/FigExample_800-600_0-prelim-out
+//=========Macro generated from canvas: FigExample/FigExample
 //=========  (Thu Dec 18 15:22:48 2025) by ROOT version 6.26/11
-   TCanvas *FigExample_800-600_0-prelim-out = new TCanvas("FigExample_800-600_0-prelim-out", "FigExample_800-600_0-prelim-out",0,0,800,600);
+   TCanvas *FigExample = new TCanvas("FigExample", "FigExample",0,0,800,600);
    gStyle->SetOptFit(1);
    gStyle->SetOptStat(0);
    gStyle->SetOptTitle(0);
-   FigExample_800-600_0-prelim-out->Range(-171.4286,-0.18,1257.143,1.32);
-   FigExample_800-600_0-prelim-out->SetFillColor(0);
-   FigExample_800-600_0-prelim-out->SetBorderMode(0);
-   FigExample_800-600_0-prelim-out->SetBorderSize(2);
-   FigExample_800-600_0-prelim-out->SetGridx();
-   FigExample_800-600_0-prelim-out->SetGridy();
-   FigExample_800-600_0-prelim-out->SetTickx(1);
-   FigExample_800-600_0-prelim-out->SetTicky(1);
-   FigExample_800-600_0-prelim-out->SetLeftMargin(0.12);
-   FigExample_800-600_0-prelim-out->SetRightMargin(0.04);
-   FigExample_800-600_0-prelim-out->SetTopMargin(0.08);
-   FigExample_800-600_0-prelim-out->SetBottomMargin(0.12);
-   FigExample_800-600_0-prelim-out->SetFrameFillStyle(0);
-   FigExample_800-600_0-prelim-out->SetFrameBorderMode(0);
-   FigExample_800-600_0-prelim-out->SetFrameFillStyle(0);
-   FigExample_800-600_0-prelim-out->SetFrameBorderMode(0);
+   FigExample->Range(-171.4286,-0.18,1257.143,1.32);
+   FigExample->SetFillColor(0);
+   FigExample->SetBorderMode(0);
+   FigExample->SetBorderSize(2);
+   FigExample->SetGridx();
+   FigExample->SetGridy();
+   FigExample->SetTickx(1);
+   FigExample->SetTicky(1);
+   FigExample->SetLeftMargin(0.12);
+   FigExample->SetRightMargin(0.04);
+   FigExample->SetTopMargin(0.08);
+   FigExample->SetBottomMargin(0.12);
+   FigExample->SetFrameFillStyle(0);
+   FigExample->SetFrameBorderMode(0);
+   FigExample->SetFrameFillStyle(0);
+   FigExample->SetFrameBorderMode(0);
    Double_t xAxis1[16] = {0, 30, 60, 90, 120, 150, 180, 210, 270, 330, 390, 450, 570, 690, 930, 1200}; 
    
    TH1D *hDivInc__1__1 = new TH1D("hDivInc__1__1","Inclusive tau, Single jet, MH1000, 2ns delay, HT, H to XX to 4tau",15, xAxis1);
@@ -547,7 +547,8 @@ void Signal_efficiency_HT430vsL1Tau_HtoXXto4tau()
    hDivInctau__8__9->GetZaxis()->SetTitleFont(42);
    hDivInctau__8__9->Draw("PE0 same");
    
-   TLegend *leg = new TLegend(0.35,0.2,0.85,0.5,NULL,"brNDC");
+   //TLegend *leg = new TLegend(0.35,0.2,0.85,0.5,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.35,0.2,0.77,0.5,NULL,"brNDC");
    leg->SetTextFont(62);
    leg->SetTextSize(0.04);
    leg->SetLineColor(0);
@@ -608,7 +609,7 @@ tex->SetNDC();
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(50,1.03,"H #rightarrow XX #rightarrow 4#tau (m_{H} = 1000 GeV, m_{X} = 450 GeV, c#tau = 10m)");
+      tex = new TLatex(50,1.03,"H #rightarrow XX #rightarrow 4#tau (m_{H} = 1000 GeV, m_{X} = 450 GeV, c#tau = 10 m)");
    tex->SetTextAlign(12);
    tex->SetTextFont(42);
    tex->SetTextSize(0.043);
@@ -672,7 +673,8 @@ tex->SetNDC();
    hDivInc__1_copy__10->GetZaxis()->SetTitleOffset(1);
    hDivInc__1_copy__10->GetZaxis()->SetTitleFont(42);
    hDivInc__1_copy__10->Draw("sameaxis");
-   FigExample_800-600_0-prelim-out->Modified();
-   FigExample_800-600_0-prelim-out->cd();
-   FigExample_800-600_0-prelim-out->SetSelected(FigExample_800-600_0-prelim-out);
+   FigExample->Modified();
+   FigExample->cd();
+   FigExample->SetSelected(FigExample);
+   FigExample->SaveAs("Figure_028-b.pdf");
 }
