@@ -260,12 +260,13 @@ void overlay_acceptance_1000_200_CTau_1000mm_forPhysicsBriefing()
    tex->SetLineWidth(2);
    tex->Draw();
 
-   tex = new TLatex(0.2,0.91,"#bf{#it{Simulation}}");
+   tex = new TLatex(0.2,0.91,"Simulation");
    tex->SetNDC();
+   tex->SetTextFont(52);      // 52 = Helvetica italic (common CMS style)
    tex->SetTextSize(0.038);
    tex->SetLineWidth(2);
    tex->Draw();
-
+ 
    tex = new TLatex(0.89,0.91,"(13.6 TeV)");
    tex->SetNDC();
    tex->SetTextAlign(31);
@@ -273,6 +274,7 @@ void overlay_acceptance_1000_200_CTau_1000mm_forPhysicsBriefing()
    tex->SetTextSize(0.035);
    tex->SetLineWidth(2);
    tex->Draw();
+
 
    // ---- Public-friendly legend labels (now tied to graphs; styles will match) ----
    TLegend *leg = new TLegend(0.13,0.72,0.74,0.88,NULL,"brNDC");
