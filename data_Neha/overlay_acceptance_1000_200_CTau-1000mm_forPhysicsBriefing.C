@@ -277,16 +277,17 @@ void overlay_acceptance_1000_200_CTau_1000mm_forPhysicsBriefing()
 
 
    // ---- Public-friendly legend labels (now tied to graphs; styles will match) ----
-   TLegend *leg = new TLegend(0.13,0.72,0.74,0.88,NULL,"brNDC");
+   //TLegend *leg = new TLegend(0.13,0.72,0.74,0.88,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.13,0.72,0.84,0.88,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetTextSize(0.024);
    leg->SetFillStyle(0);
 
-   leg->AddEntry(g_displacedInnerTracker, "Displaced jets detected in the inner tracker", "lep");
-   leg->AddEntry(g_delayedTiming,       "Delayed jets identified using precision timing", "lep");
-   leg->AddEntry(g_displacedOuterCalo,   "Displaced jets detected in the outer calorimeter", "lep");
-   leg->AddEntry(g_muonBarrel,           "Particle showers in the muon chambers (barrel)", "lep");
-   leg->AddEntry(g_muonEndcap,           "Particle showers in the muon chambers (endcap)", "lep");
+   leg->AddEntry(g_displacedInnerTracker, "Displaced jets detected in the inner tracker (c#tau = 0.1m)", "lep");
+   leg->AddEntry(g_delayedTiming,       "Delayed jets identified using precision timing (c#tau = 1m)", "lep");
+   leg->AddEntry(g_displacedOuterCalo,   "Displaced jets detected in the outer calorimeter (c#tau = 1m)", "lep");
+   leg->AddEntry(g_muonBarrel,           "Particle showers in the muon chambers (barrel) (c#tau = 1m)", "lep");
+   leg->AddEntry(g_muonEndcap,           "Particle showers in the muon chambers (endcap) (c#tau = 1m)", "lep");
 
    leg->Draw();
 
