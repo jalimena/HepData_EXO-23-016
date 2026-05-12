@@ -151,7 +151,7 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    tex->SetTextSize(0.035);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.2,0.73,"#frac{Run-3 displaced-jets trigger efficiency}{Run-2 displaced-jets trigger efficiency}");
+      tex = new TLatex(0.2,0.73,"#frac{Run-3 displaced-jet trigger efficiency}{Run-2 displaced-jet trigger efficiency}");
    tex->SetNDC();
    tex->SetTextFont(42);
    tex->SetTextSize(0.032);
@@ -201,4 +201,5 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    leg->Draw();
    can->Modified();
    can->SetSelected(can);
+   can->SaveAs("Figure_019.pdf");
 }
