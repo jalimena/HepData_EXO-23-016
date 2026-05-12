@@ -22,8 +22,9 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    
    Double_t __fx1[4] = { 0.1, 1, 10, 100 };
    Double_t __fy1[4] = { 10.351, 4.315, 5.556, 14.051 };
-   TGraph *graph = new TGraph(4,__fx1,__fy1);
-   graph->SetName("");
+   TGraph *g55 = new TGraph(4,__fx1,__fy1);
+   g55->SetName("g55");
+   TGraph *graph = g55;
    graph->SetTitle("");
    graph->SetFillStyle(1000);
 
@@ -65,8 +66,9 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    
    Double_t __fx2[4] = { 0.1, 1, 10, 100 };
    Double_t __fy2[4] = { 9.8597, 4.24538, 5.6809, 13.1229 };
-   graph = new TGraph(4,__fx2,__fy2);
-   graph->SetName("");
+   TGraph *g40 = new TGraph(4,__fx2,__fy2);
+   g40->SetName("g40");
+   graph = g40;
    graph->SetTitle("");
    graph->SetFillStyle(1000);
 
@@ -101,8 +103,9 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    
    Double_t __fx3[4] = { 0.1, 1, 10, 100 };
    Double_t __fy3[4] = { 9.5423, 4.3777, 8.1842, 16.88 };
-   graph = new TGraph(4,__fx3,__fy3);
-   graph->SetName("");
+   TGraph *g15 = new TGraph(4,__fx3,__fy3);
+   g15->SetName("g15");
+   graph = g15;
    graph->SetTitle("");
    graph->SetFillStyle(1000);
 
@@ -140,11 +143,8 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    tex->SetTextSize(0.045);
    tex->SetLineWidth(2);
    tex->Draw();
-      tex = new TLatex(0.15,0.82,"CMS #bf{#scale[0.75]{#it{Simulation}}}");
-   tex->SetNDC();
-   tex->SetTextSize(0.06);
-   tex->SetLineWidth(2);
-   tex->Draw();
+   
+   
       tex = new TLatex(0.15,0.58,"#splitline{H #rightarrow SS, S #rightarrow b#bar{b}}{m_{H} = 125 GeV}");
    tex->SetNDC();
    tex->SetTextFont(42);
@@ -158,47 +158,30 @@ void DisplacedJet_Trigger_Run3vsRun2_efficiency_gain()
    tex->SetLineWidth(2);
    tex->Draw();
    
+ 
    TLegend *leg = new TLegend(0.5,0.5,0.85,0.65,NULL,"brNDC");
    leg->SetBorderSize(1);
    leg->SetLineColor(0);
    leg->SetLineStyle(1);
    leg->SetLineWidth(1);
-
+   
    ci = 1179;
    color = new TColor(ci, 1, 1, 1, " ", 0);
    leg->SetFillColor(ci);
    leg->SetFillStyle(1001);
-   TLegendEntry *entry=leg->AddEntry("","m_{S} = 55 GeV","p");
-   entry->SetLineColor(1);
-   entry->SetLineStyle(1);
-   entry->SetLineWidth(1);
-
-   ci = TColor::GetColor("#ff0000");
-   entry->SetMarkerColor(ci);
-   entry->SetMarkerStyle(20);
-   entry->SetMarkerSize(2);
-   entry->SetTextFont(42);
-   entry=leg->AddEntry("","m_{S} = 40 GeV","p");
-   entry->SetLineColor(1);
-   entry->SetLineStyle(1);
-   entry->SetLineWidth(1);
-
-   ci = TColor::GetColor("#00cc00");
-   entry->SetMarkerColor(ci);
-   entry->SetMarkerStyle(21);
-   entry->SetMarkerSize(2);
-   entry->SetTextFont(42);
-   entry=leg->AddEntry("","m_{S} = 15 GeV","p");
-   entry->SetLineColor(1);
-   entry->SetLineStyle(1);
-   entry->SetLineWidth(1);
-
-   ci = TColor::GetColor("#0000ff");
-   entry->SetMarkerColor(ci);
-   entry->SetMarkerStyle(22);
-   entry->SetMarkerSize(2);
-   entry->SetTextFont(42);
+   
+   leg->AddEntry(g55, "m_{S} = 55 GeV", "p");
+   leg->AddEntry(g40, "m_{S} = 40 GeV", "p");
+   leg->AddEntry(g15, "m_{S} = 15 GeV", "p");
+   
    leg->Draw();
+
+   tex = new TLatex(0.15,0.82,"CMS #bf{#scale[0.75]{#it{Simulation}}}");
+   tex->SetNDC();
+   tex->SetTextSize(0.06);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   
    can->Modified();
    can->SetSelected(can);
    can->SaveAs("Figure_019.pdf");
