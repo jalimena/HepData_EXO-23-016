@@ -1,0 +1,296 @@
+#ifdef __CLING__
+#pragma cling optimize(0)
+#endif
+void ttbar_Run3_HLT_efficiency_r_logx_with_offline_sum()
+{
+//=========Macro generated from canvas: ttbar_Run3_HLT_efficiency_r_logx/ttbar_Run3_HLT_efficiency_r_logx
+//=========  (Fri Nov 21 14:07:07 2025) by ROOT version 6.32.11
+   TCanvas *ttbar_Run3_HLT_efficiency_r_logx = new TCanvas("ttbar_Run3_HLT_efficiency_r_logx", "ttbar_Run3_HLT_efficiency_r_logx",0,0,600,600);
+   gStyle->SetOptFit(1);
+   gStyle->SetOptStat(0);
+   gStyle->SetOptTitle(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetHighLightColor(2);
+   ttbar_Run3_HLT_efficiency_r_logx->Range(-3.223315,-0.2947368,3.572878,1.547368);
+   ttbar_Run3_HLT_efficiency_r_logx->SetFillColor(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetBorderMode(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetBorderSize(2);
+   ttbar_Run3_HLT_efficiency_r_logx->SetLogx();
+   ttbar_Run3_HLT_efficiency_r_logx->SetTickx(1);
+   ttbar_Run3_HLT_efficiency_r_logx->SetTicky(1);
+   ttbar_Run3_HLT_efficiency_r_logx->SetLeftMargin(0.18);
+   ttbar_Run3_HLT_efficiency_r_logx->SetRightMargin(0.04);
+   ttbar_Run3_HLT_efficiency_r_logx->SetTopMargin(0.08);
+   ttbar_Run3_HLT_efficiency_r_logx->SetBottomMargin(0.16);
+   ttbar_Run3_HLT_efficiency_r_logx->SetFrameFillStyle(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetFrameBorderMode(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetFrameFillStyle(0);
+   ttbar_Run3_HLT_efficiency_r_logx->SetFrameBorderMode(0);
+   
+   TH1F *hframe__19 = new TH1F("hframe__19","",1000,0.01,2000);
+   hframe__19->SetMinimum(0);
+   hframe__19->SetMaximum(1.4);
+   hframe__19->SetDirectory(nullptr);
+   hframe__19->SetStats(0);
+   hframe__19->SetLineStyle(0);
+   hframe__19->SetMarkerStyle(20);
+   hframe__19->GetXaxis()->SetTitle("Radial vertex position [cm]");
+   hframe__19->GetXaxis()->SetLabelFont(42);
+   hframe__19->GetXaxis()->SetLabelOffset(0.007);
+   hframe__19->GetXaxis()->SetLabelSize(0.05);
+   hframe__19->GetXaxis()->SetTitleSize(0.06);
+   hframe__19->GetXaxis()->SetTitleOffset(1.15);
+   hframe__19->GetXaxis()->SetTitleFont(42);
+   hframe__19->GetYaxis()->SetTitle("Tracking efficiency");
+   hframe__19->GetYaxis()->SetLabelFont(42);
+   hframe__19->GetYaxis()->SetLabelOffset(0.007);
+   hframe__19->GetYaxis()->SetLabelSize(0.05);
+   hframe__19->GetYaxis()->SetTitleSize(0.06);
+   hframe__19->GetYaxis()->SetTitleOffset(1.55);
+   hframe__19->GetYaxis()->SetTitleFont(42);
+   hframe__19->GetZaxis()->SetLabelFont(42);
+   hframe__19->GetZaxis()->SetLabelOffset(0.007);
+   hframe__19->GetZaxis()->SetLabelSize(0.05);
+   hframe__19->GetZaxis()->SetTitleSize(0.06);
+   hframe__19->GetZaxis()->SetTitleOffset(1);
+   hframe__19->GetZaxis()->SetTitleFont(42);
+   hframe__19->Draw(" ");
+   Double_t xAxis4[41] = {0.01, 0.01258925, 0.01584893, 0.01995262, 0.02511886, 0.03162277, 0.03981072, 0.05011873, 0.06309573, 0.07943282, 0.1, 0.1258925, 0.1584893, 0.1995262, 0.2511887, 0.3162278, 0.3981072, 0.5011873, 0.6309574, 0.7943283, 1, 1.258926, 1.584893, 1.995263, 2.511887, 3.162278, 3.981072, 5.011873, 6.309575, 7.943283, 10, 12.58925, 15.84893, 19.95263, 25.11887, 31.62278, 39.81072, 50.11873, 63.09575, 79.43284, 100}; 
+   
+   TH1F *effic_vs_vertpos__20 = new TH1F("effic_vs_vertpos__20","Efficiency vs vertpos",40, xAxis4);
+   effic_vs_vertpos__20->SetBinContent(1,0.8409044);
+   effic_vs_vertpos__20->SetBinContent(2,0.855316);
+   effic_vs_vertpos__20->SetBinContent(3,0.8606946);
+   effic_vs_vertpos__20->SetBinContent(4,0.8596555);
+   effic_vs_vertpos__20->SetBinContent(5,0.8634474);
+   effic_vs_vertpos__20->SetBinContent(6,0.8620123);
+   effic_vs_vertpos__20->SetBinContent(7,0.8658745);
+   effic_vs_vertpos__20->SetBinContent(8,0.86474);
+   effic_vs_vertpos__20->SetBinContent(9,0.862202);
+   effic_vs_vertpos__20->SetBinContent(10,0.8576036);
+   effic_vs_vertpos__20->SetBinContent(11,0.8613613);
+   effic_vs_vertpos__20->SetBinContent(12,0.856753);
+   effic_vs_vertpos__20->SetBinContent(13,0.8513927);
+   effic_vs_vertpos__20->SetBinContent(14,0.8475431);
+   effic_vs_vertpos__20->SetBinContent(15,0.8385443);
+   effic_vs_vertpos__20->SetBinContent(16,0.8265085);
+   effic_vs_vertpos__20->SetBinContent(17,0.8126317);
+   effic_vs_vertpos__20->SetBinContent(18,0.7891818);
+   effic_vs_vertpos__20->SetBinContent(19,0.7546676);
+   effic_vs_vertpos__20->SetBinContent(20,0.7185557);
+   effic_vs_vertpos__20->SetBinContent(21,0.6657628);
+   effic_vs_vertpos__20->SetBinContent(22,0.6019967);
+   effic_vs_vertpos__20->SetBinContent(23,0.5230863);
+   effic_vs_vertpos__20->SetBinContent(24,0.3115936);
+   effic_vs_vertpos__20->SetBinContent(25,0.2981668);
+   effic_vs_vertpos__20->SetBinContent(26,0.220748);
+   effic_vs_vertpos__20->SetBinContent(27,0.1316398);
+   effic_vs_vertpos__20->SetBinContent(28,0.09108324);
+   effic_vs_vertpos__20->SetBinContent(29,0.05086965);
+   effic_vs_vertpos__20->SetBinContent(30,0.01378394);
+   effic_vs_vertpos__20->SetBinContent(31,0.002797364);
+   effic_vs_vertpos__20->SetBinContent(32,0.002452613);
+   effic_vs_vertpos__20->SetBinContent(33,0.001106365);
+   effic_vs_vertpos__20->SetBinContent(34,0.0009136767);
+   effic_vs_vertpos__20->SetBinContent(35,0.0002824969);
+   effic_vs_vertpos__20->SetBinContent(36,1.54439e-05);
+   effic_vs_vertpos__20->SetBinError(1,0.0001446168);
+   effic_vs_vertpos__20->SetBinError(2,0.00303328);
+   effic_vs_vertpos__20->SetBinError(3,0.002719759);
+   effic_vs_vertpos__20->SetBinError(4,0.002501923);
+   effic_vs_vertpos__20->SetBinError(5,0.002236789);
+   effic_vs_vertpos__20->SetBinError(6,0.002083501);
+   effic_vs_vertpos__20->SetBinError(7,0.001883463);
+   effic_vs_vertpos__20->SetBinError(8,0.001752193);
+   effic_vs_vertpos__20->SetBinError(9,0.001632913);
+   effic_vs_vertpos__20->SetBinError(10,0.001522082);
+   effic_vs_vertpos__20->SetBinError(11,0.001404741);
+   effic_vs_vertpos__20->SetBinError(12,0.001331244);
+   effic_vs_vertpos__20->SetBinError(13,0.001270296);
+   effic_vs_vertpos__20->SetBinError(14,0.00121685);
+   effic_vs_vertpos__20->SetBinError(15,0.001203811);
+   effic_vs_vertpos__20->SetBinError(16,0.001197746);
+   effic_vs_vertpos__20->SetBinError(17,0.001210114);
+   effic_vs_vertpos__20->SetBinError(18,0.001276839);
+   effic_vs_vertpos__20->SetBinError(19,0.001372882);
+   effic_vs_vertpos__20->SetBinError(20,0.001499871);
+   effic_vs_vertpos__20->SetBinError(21,0.001675265);
+   effic_vs_vertpos__20->SetBinError(22,0.001881068);
+   effic_vs_vertpos__20->SetBinError(23,0.00208801);
+   effic_vs_vertpos__20->SetBinError(24,0.001440597);
+   effic_vs_vertpos__20->SetBinError(25,0.001159999);
+   effic_vs_vertpos__20->SetBinError(26,0.001537909);
+   effic_vs_vertpos__20->SetBinError(27,0.001733772);
+   effic_vs_vertpos__20->SetBinError(28,0.001473918);
+   effic_vs_vertpos__20->SetBinError(29,0.0005608206);
+   effic_vs_vertpos__20->SetBinError(30,0.0005784493);
+   effic_vs_vertpos__20->SetBinError(31,0.000151496);
+   effic_vs_vertpos__20->SetBinError(32,0.0001993459);
+   effic_vs_vertpos__20->SetBinError(33,0.0001064011);
+   effic_vs_vertpos__20->SetBinError(34,8.371834e-05);
+   effic_vs_vertpos__20->SetBinError(35,5.245095e-05);
+   effic_vs_vertpos__20->SetBinError(36,1.09204e-05);
+   effic_vs_vertpos__20->SetEntries(9195488);
+   effic_vs_vertpos__20->SetDirectory(nullptr);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#ff6600");
+   effic_vs_vertpos__20->SetLineColor(ci);
+   effic_vs_vertpos__20->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff6600");
+   effic_vs_vertpos__20->SetMarkerColor(ci);
+   effic_vs_vertpos__20->SetMarkerStyle(34);
+   effic_vs_vertpos__20->SetMarkerSize(1.2);
+   effic_vs_vertpos__20->GetXaxis()->SetLabelFont(42);
+   effic_vs_vertpos__20->GetXaxis()->SetTitleOffset(1);
+   effic_vs_vertpos__20->GetXaxis()->SetTitleFont(42);
+   effic_vs_vertpos__20->GetYaxis()->SetLabelFont(42);
+   effic_vs_vertpos__20->GetYaxis()->SetTitleFont(42);
+   effic_vs_vertpos__20->GetZaxis()->SetLabelFont(42);
+   effic_vs_vertpos__20->GetZaxis()->SetTitleOffset(1);
+   effic_vs_vertpos__20->GetZaxis()->SetTitleFont(42);
+   effic_vs_vertpos__20->Draw("sameLPE");
+
+
+   // Overlay: total offline tracking efficiency from the stacked histogram
+   // in ttbar_Run3_efficiency_r_cum_logx.C.  This is the bin-by-bin sum
+   // of hist_0_stack_1 ... hist_12_stack_13.
+   Double_t xAxisOfflineSum[21] = {0.01, 0.01584893, 0.02511886, 0.03981072, 0.06309573, 0.1, 0.1584893, 0.2511887, 0.3981072, 0.6309574, 1, 1.584893, 2.511887, 3.981072, 6.309575, 10, 15.84893, 25.11887, 39.81072, 63.09575, 100};
+   TH1F *offline_stack_sum = new TH1F("offline_stack_sum", "Offline stack sum", 20, xAxisOfflineSum);
+   offline_stack_sum->SetBinContent(1,0.902652079);
+   offline_stack_sum->SetBinContent(2,0.921094284);
+   offline_stack_sum->SetBinContent(3,0.920566583);
+   offline_stack_sum->SetBinContent(4,0.921691421);
+   offline_stack_sum->SetBinContent(5,0.917646044);
+   offline_stack_sum->SetBinContent(6,0.917749087);
+   offline_stack_sum->SetBinContent(7,0.911922126);
+   offline_stack_sum->SetBinContent(8,0.907877396);
+   offline_stack_sum->SetBinContent(9,0.899277621);
+   offline_stack_sum->SetBinContent(10,0.886798535);
+   offline_stack_sum->SetBinContent(11,0.872941194);
+   offline_stack_sum->SetBinContent(12,0.799521925);
+   offline_stack_sum->SetBinContent(13,0.710858772);
+   offline_stack_sum->SetBinContent(14,0.724465448);
+   offline_stack_sum->SetBinContent(15,0.552642143);
+   offline_stack_sum->SetBinContent(16,0.402045572);
+   offline_stack_sum->SetBinContent(17,0.363212183);
+   offline_stack_sum->SetBinContent(18,0.330719888);
+   offline_stack_sum->SetBinContent(19,0.236989578);
+   offline_stack_sum->SetBinContent(20,0.0);
+   offline_stack_sum->SetDirectory(nullptr);
+   offline_stack_sum->SetStats(0);
+   offline_stack_sum->SetFillStyle(0);
+   offline_stack_sum->SetLineColor(kBlue);
+   offline_stack_sum->SetLineStyle(0);
+   offline_stack_sum->SetLineWidth(2);
+   offline_stack_sum->SetMarkerStyle(20);
+   offline_stack_sum->SetMarkerColor(kBlue);
+   offline_stack_sum->SetMarkerSize(1.2);
+   offline_stack_sum->Draw("samehist");
+
+   // Redraw the HLT points so they stay visible on top of the offline outline.
+   effic_vs_vertpos__20->Draw("sameLPE");
+   
+   //TLegend *leg = new TLegend(0.55,0.63,0.95,0.78,NULL,"brNDC");
+   //TLegend *leg = new TLegend(0.45,0.55,0.85,0.70,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.65,0.55,0.9,0.70,NULL,"brNDC");
+   leg->SetBorderSize(0);
+   leg->SetTextFont(62);
+   leg->SetTextSize(0.04);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(1001);
+   TLegendEntry *entry=leg->AddEntry(effic_vs_vertpos__20,"HLT","P");
+
+   ci = TColor::GetColor("#ff6600");
+   entry->SetLineColor(ci);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+
+   ci = TColor::GetColor("#ff6600");
+   entry->SetMarkerColor(ci);
+   entry->SetMarkerStyle(34);
+   entry->SetMarkerSize(1.2);
+   entry->SetTextFont(62);
+
+   entry=leg->AddEntry(offline_stack_sum,"Offline","L");
+   entry->SetLineColor(kBlue);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(2);
+   entry->SetMarkerStyle(0);
+   entry->SetTextFont(62);
+   leg->Draw();
+   TLatex *   tex = new TLatex(0.96,0.936," (13.6 TeV)");
+   tex->SetNDC();
+   tex->SetTextAlign(31);
+   tex->SetTextFont(42);
+   tex->SetTextSize(0.048);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   
+   TH1F *hframe_copy__21 = new TH1F("hframe_copy__21","",1000,0.01,2000);
+   hframe_copy__21->SetMinimum(0);
+   hframe_copy__21->SetMaximum(1.4);
+   hframe_copy__21->SetDirectory(nullptr);
+   hframe_copy__21->SetStats(0);
+   hframe_copy__21->SetLineStyle(0);
+   hframe_copy__21->SetMarkerStyle(20);
+   hframe_copy__21->GetXaxis()->SetTitle("Radial vertex position [cm]");
+   hframe_copy__21->GetXaxis()->SetLabelFont(42);
+   hframe_copy__21->GetXaxis()->SetLabelOffset(0.007);
+   hframe_copy__21->GetXaxis()->SetLabelSize(0.05);
+   hframe_copy__21->GetXaxis()->SetTitleSize(0.06);
+   hframe_copy__21->GetXaxis()->SetTitleOffset(1.15);
+   hframe_copy__21->GetXaxis()->SetTitleFont(42);
+   hframe_copy__21->GetYaxis()->SetTitle("Tracking efficiency");
+   hframe_copy__21->GetYaxis()->SetLabelFont(42);
+   hframe_copy__21->GetYaxis()->SetLabelOffset(0.007);
+   hframe_copy__21->GetYaxis()->SetLabelSize(0.05);
+   hframe_copy__21->GetYaxis()->SetTitleSize(0.06);
+   hframe_copy__21->GetYaxis()->SetTitleOffset(1.55);
+   hframe_copy__21->GetYaxis()->SetTitleFont(42);
+   hframe_copy__21->GetZaxis()->SetLabelFont(42);
+   hframe_copy__21->GetZaxis()->SetLabelOffset(0.007);
+   hframe_copy__21->GetZaxis()->SetLabelSize(0.05);
+   hframe_copy__21->GetZaxis()->SetTitleSize(0.06);
+   hframe_copy__21->GetZaxis()->SetTitleOffset(1);
+   hframe_copy__21->GetZaxis()->SetTitleFont(42);
+   hframe_copy__21->Draw("sameaxis");
+   TPave *pave = new TPave(0.33,0.79,0.87,0.91,0,"brNDC");
+   pave->SetFillColor(0);
+   pave->Draw();
+   //tex = new TLatex(0.34,0.86,"t#bar{t} events (#LTPU#GT=62)");
+      tex = new TLatex(0.21,0.79,"t#bar{t} events (#LTPU#GT=62)");
+   tex->SetNDC();
+   tex->SetTextSize(0.045);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   //tex = new TLatex(0.34,0.81,"Track p_{T} > 0.9 GeV, |#eta| < 2.5");
+      tex = new TLatex(0.21,0.71,"Track p_{T} > 0.9 GeV, |#eta| < 2.5");
+   tex->SetNDC();
+   tex->SetTextSize(0.045);
+   tex->SetLineWidth(2);
+   tex->Draw();
+
+   //tex = new TLatex(0.18,0.936,"CMS");
+   tex = new TLatex(0.21,0.85,"CMS");
+   tex->SetNDC();
+   tex->SetTextFont(61);
+   tex->SetTextSize(0.06);
+   tex->SetLineWidth(2);
+   tex->Draw();
+   //tex = new TLatex(0.3151,0.936,"Simulation");
+   tex = new TLatex(0.3451,0.85,"Simulation");
+   tex->SetNDC();
+   tex->SetTextFont(52);
+   tex->SetTextSize(0.0456);
+   tex->SetLineWidth(2);
+   tex->Draw();
+
+   ttbar_Run3_HLT_efficiency_r_logx->Modified();
+   ttbar_Run3_HLT_efficiency_r_logx->SetSelected(ttbar_Run3_HLT_efficiency_r_logx);
+   ttbar_Run3_HLT_efficiency_r_logx->SaveAs("Figure_002-b.pdf");
+}
