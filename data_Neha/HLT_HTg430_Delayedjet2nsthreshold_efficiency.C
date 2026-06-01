@@ -180,7 +180,7 @@ void HLT_HTg430_Delayedjet2nsthreshold_efficiency()
    tex->SetLineWidth(2);
    tex->Draw();
 
-   TLatex *   tex2 = new TLatex(0.33,1.05,"#geq 1 jet with p_{T} > 40 GeV and t > 2 ns");
+   TLatex *   tex2 = new TLatex(0.33,1.05,"#geq 1 HLT jet with p_{T} > 40 GeV and t > 2 ns");
    tex2->SetTextAlign(12);
    tex2->SetTextFont(42);
    tex2->SetTextSize(0.04);
